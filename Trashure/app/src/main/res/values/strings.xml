@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Trashure</string>
     <string name="image_splash">Splash screen image</string>
+    <string name="tagline_1">Manage your Trash</string>
+    <string name="tagline_2">Like a Treasure</string>
+    <string name="sign_in_now">Sign In Now !</string>
+    <string name="trashure_logo">Trashure logo</string>
+    <string name="image">image</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_desc">Sign in to your account</string>
+
 </resources>
