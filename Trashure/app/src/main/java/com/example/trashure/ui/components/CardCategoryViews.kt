@@ -28,7 +28,7 @@ import com.example.trashure.ui.theme.TrashureTheme
 fun CardCategoryViews(
     icon: Int,
     title: String,
-    input: String,
+    input: Int,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -58,7 +58,7 @@ fun CardCategoryViews(
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = input,
+                    text = "Rp $input",
                     maxLines = 1,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -75,7 +75,7 @@ fun CardCategoryPreview() {
         CardCategoryViews(
             R.drawable.money,
             "Saldo Anda",
-            "Rp 30.000"
+            30000
         )
     }
 }

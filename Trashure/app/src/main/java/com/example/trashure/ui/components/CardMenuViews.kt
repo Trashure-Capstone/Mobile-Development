@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trashure.R
+import com.example.trashure.ui.theme.Green_1
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
@@ -30,6 +31,7 @@ fun CardMenuViews(
     icon: Int,
     title: String,
     description: String,
+    color: Color,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -37,7 +39,7 @@ fun CardMenuViews(
             .width(304.dp)
             .height(58.dp),
         shape = RoundedCornerShape(10.dp),
-        backgroundColor = Color(0xFFCCEFD9)
+        backgroundColor = color
     ){
         Row(
             modifier = modifier
@@ -85,7 +87,8 @@ fun CardMenuPreview() {
         CardMenuViews(
             R.drawable.recycling,
             "Jual Sampah",
-            "Bersihkan lingkunganmu sekarang"
+            "Bersihkan lingkunganmu sekarang",
+            Green_1
         )
     }
 }

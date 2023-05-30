@@ -3,11 +3,15 @@ package com.example.trashure.ui.screen.home
 import android.app.Activity
 import android.view.MenuItem
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,10 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trashure.R
 import androidx.compose.material.Text
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.unit.sp
 import com.example.trashure.model.ActivityNews
+import com.example.trashure.model.Category
 import com.example.trashure.model.Menu
 import com.example.trashure.model.News
 import com.example.trashure.model.dummyActivity
@@ -35,27 +42,57 @@ import com.example.trashure.model.dummyMenu
 import com.example.trashure.model.dummyMenuToko
 import com.example.trashure.model.dummyNews
 import com.example.trashure.ui.components.CardActivityViews
+import com.example.trashure.ui.components.CardCategoryViews
 import com.example.trashure.ui.components.CardMenuTokoViews
 import com.example.trashure.ui.components.CardMenuViews
 import com.example.trashure.ui.components.CardNewsViews
 import com.example.trashure.ui.components.HomeSection
+import com.example.trashure.ui.theme.PrimaryBackgroundColor
+import com.example.trashure.ui.theme.PrimaryColor
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
 ){
+    Box(
+        modifier = Modifier
+            .height(192.dp)
+            .fillMaxWidth()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        PrimaryBackgroundColor, Color(0xFFCCEFD9)
+                    )
+                )
+            )
+    )
     Column(
+        modifier = Modifier
+            .fillMaxSize()
     ){
+        Spacer(modifier = Modifier.height(80.dp))
         Box {
             BannerHome("Hilalhmdy")
 
         }
-        MenuCategory(dummyMenu)
-        MenuTokoCategory(dummyMenuToko)
+        Spacer(modifier = Modifier.height(30.dp))
+        Category(
+            modifier = modifier
+                .fillMaxWidth()
+        )
+        Column(
+            modifier = modifier
+                .padding(top = 10.dp)
+        ) {
+            MenuCategory(dummyMenu)
+        }
+        MenuCategory(dummyMenuToko)
         HomeSection(
             title = stringResource(R.string.news_title),
-            content = { NewsCategory(dummyNews)}
+            content = { NewsCategory(dummyNews)},
+            modifier = modifier
+                .padding(top = 10.dp)
         )
         HomeSection(
             title = stringResource(R.string.activity_title),
@@ -79,39 +116,36 @@ fun BannerHome(
     username: String,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
-        Image(
-            painter = painterResource(R.drawable.decoration),
-            contentDescription = "Banner Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.height(192.dp)
-        )
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .align(Alignment.Center)
-        ) {
-            Row{
+    Box(modifier = modifier
+        .fillMaxWidth()
+    ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            ) {
+                Row {
+                    Text(
+                        text = "Hello, $username",
+                        maxLines = 1,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.wavinghand),
+                        contentDescription = "null",
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                }
                 Text(
-                    text = "Hello, $username",
+                    text = "Sudah kamu membuang sampah?",
                     maxLines = 1,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(end = 8.dp)
+                    fontWeight = FontWeight.Bold
                 )
-                Image(
-                    painter = painterResource(R.drawable.wavinghand),
-                    contentDescription = "null",
-                    modifier = Modifier
-                        .size(20.dp)
-                )
-            }
-            Text(
-                text = "Sudah kamu membuang sampah?",
-                maxLines = 1,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
         }
     }
 }
@@ -134,34 +168,15 @@ fun MenuCategory(
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .padding(top = 50.dp)
+            .fillMaxWidth()
+            .padding(top = 20.dp)
     ) {
         items(listMenu){data ->
             CardMenuViews(
                 icon = data.icon,
                 title = data.title,
-                description = data.description
-            )
-        }
-    }
-}
-
-@Composable
-fun MenuTokoCategory(
-    listMenu: List<Menu>,
-    modifier: Modifier = Modifier,
-){
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        items(listMenu){data ->
-            CardMenuTokoViews(
-                icon = data.icon,
-                title = data.title,
-                description = data.description
+                description = data.description,
+                color = data.color
             )
         }
     }
@@ -205,6 +220,27 @@ fun ActivityCategory(
                 title = ""
             )
         }
+    }
+}
+
+@Composable
+fun Category(
+    modifier: Modifier = Modifier
+){
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = modifier
+    ) {
+        CardCategoryViews(
+            icon = R.drawable.money,
+            title = stringResource(R.string.saldo),
+            input = 30000
+        )
+        CardCategoryViews(
+            icon = R.drawable.coin,
+            title = stringResource(R.string.poin),
+            input = 3000
+        )
     }
 }
 

@@ -77,7 +77,8 @@ fun TrashureApp(
 
 @Composable
 private fun BottomBar(
-    navController: NavHostController
+    navController: NavHostController,
+    modifier : Modifier = Modifier
 ) {
     var value by remember { mutableStateOf(20f) }
     BottomNavigation(
