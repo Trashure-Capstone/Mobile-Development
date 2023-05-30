@@ -1,6 +1,5 @@
 package com.example.trashure.ui.components
 
-import android.view.Menu
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,10 +9,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,8 +29,10 @@ fun CardNewsViews(
     modifier: Modifier = Modifier,
 ) {
     Card (
-        modifier = modifier.width(118.dp),
-        shape = RoundedCornerShape(8.dp)
+        modifier = modifier
+            .width(118.dp)
+            .shadow(elevation = 8.dp, ambientColor = Color.Gray, spotColor = Color.Gray),
+        shape = RoundedCornerShape(8.dp),
     ){
         Column {
             Image(

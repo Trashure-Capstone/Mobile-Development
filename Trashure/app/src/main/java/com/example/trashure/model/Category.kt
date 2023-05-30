@@ -9,6 +9,6 @@ data class Category(
 )
 
 val dummyCategory = listOf(
-    R.drawable.money to "Saldo Anda" to "Rp. 30.000",
-    R.drawable.coin to "Poin Anda" to "300 Coin"
+    Category(R.drawable.money, "Saldo Anda", "Rp. 30.000"),
+    Category(R.drawable.coin, "Poin Anda", "300 Coin")
 )

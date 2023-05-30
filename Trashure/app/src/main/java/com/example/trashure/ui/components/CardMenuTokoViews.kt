@@ -36,7 +36,7 @@ fun CardMenuTokoViews(
             .width(304.dp)
             .height(58.dp),
         shape = RoundedCornerShape(10.dp),
-        backgroundColor = Color(0xFFCCEFD9)
+        backgroundColor = Color(0xFFB8D0FE)
     ){
         Row(
             modifier = modifier
@@ -82,8 +82,8 @@ fun CardMenuTokoViews(
 fun CardMenuTokoPreview() {
     TrashureTheme {
         CardMenuTokoViews(
-            R.drawable.recycling,
-            "Jual Sampah",
+            R.drawable.shopping,
+            "Toko Sampah",
             "Bersihkan lingkunganmu sekarang"
         )
     }

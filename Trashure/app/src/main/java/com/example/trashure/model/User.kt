@@ -11,6 +11,6 @@ data class User (
     val phoneNumber: String,
 )
 
-val dummyuSER = listOf(
-    User("Hilalhmdy", "hilal@gmail.com", "***", R.drawable.avatarss, "082172227272"  )
+val dummyUser = listOf(
+    User("Hilalhmdy", "hilal@gmail.com", "***", R.drawable.avatarss, "082172227272" )
 )

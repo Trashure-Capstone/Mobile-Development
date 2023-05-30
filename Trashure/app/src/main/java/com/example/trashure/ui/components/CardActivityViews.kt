@@ -19,6 +19,7 @@ import com.example.trashure.ui.theme.TrashureTheme
 @Composable
 fun CardActivityViews(
     image: Int,
+    title: String,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -42,7 +43,8 @@ fun CardActivityViews(
 fun CardActivityPreview() {
     TrashureTheme {
         CardActivityViews(
-            R.drawable.banner
+            R.drawable.banner,
+            ""
         )
     }
 }

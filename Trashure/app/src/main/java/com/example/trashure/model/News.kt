@@ -8,7 +8,7 @@ data class News(
 )
 
 val dummyNews = listOf(
-    R.drawable.sampah to "Dari Jawa Barat Untuk Indonesia",
-    R.drawable.sampah to "Dari Jawa Barat Untuk Indonesia",
-    R.drawable.sampah to "Dari Jawa Barat Untuk Indonesia"
+    News(R.drawable.sampah , "Dari Jawa Barat Untuk Indonesia"),
+    News(R.drawable.sampah , "Dari Jawa Barat Untuk Indonesia"),
+    News(R.drawable.sampah , "Dari Jawa Barat Untuk Indonesia"),
 )

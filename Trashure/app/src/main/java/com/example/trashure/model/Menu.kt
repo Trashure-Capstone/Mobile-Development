@@ -10,5 +10,8 @@ data class Menu(
 
 val dummyMenu = listOf(
     Menu(R.drawable.recycling, "Jual Sampah", "Bersihkan lingkunganmu sekarang"),
-    Menu(R.drawable.sampah,"Toko Sampah","Dapatkan sampah untuk keperluan bisnis")
+)
+
+val dummyMenuToko = listOf(
+    Menu(R.drawable.shopping, "Toko Sampah", "Dapatkan sampah untuk keperluan bisnis"),
 )
