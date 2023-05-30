@@ -1,7 +1,5 @@
 package com.example.trashure.ui.screen.home
 
-import android.app.Activity
-import android.view.MenuItem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,21 +31,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.unit.sp
 import com.example.trashure.model.ActivityNews
-import com.example.trashure.model.Category
 import com.example.trashure.model.Menu
 import com.example.trashure.model.News
 import com.example.trashure.model.dummyActivity
 import com.example.trashure.model.dummyMenu
 import com.example.trashure.model.dummyMenuToko
 import com.example.trashure.model.dummyNews
-import com.example.trashure.ui.components.CardActivityViews
-import com.example.trashure.ui.components.CardCategoryViews
-import com.example.trashure.ui.components.CardMenuTokoViews
-import com.example.trashure.ui.components.CardMenuViews
-import com.example.trashure.ui.components.CardNewsViews
-import com.example.trashure.ui.components.HomeSection
+import com.example.trashure.ui.components.homepage.CardActivityViews
+import com.example.trashure.ui.components.homepage.CardCategoryViews
+import com.example.trashure.ui.components.homepage.CardMenuViews
+import com.example.trashure.ui.components.homepage.CardNewsViews
+import com.example.trashure.ui.components.homepage.HomeSection
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
-import com.example.trashure.ui.theme.PrimaryColor
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
@@ -169,7 +163,7 @@ fun MenuCategory(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 20.dp)
+            .padding(top = 16.dp)
     ) {
         items(listMenu){data ->
             CardMenuViews(
@@ -189,7 +183,7 @@ fun NewsCategory(
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(horizontal = 26.dp),
         modifier = modifier
             .padding(top = 10.dp)
     ) {
@@ -210,7 +204,7 @@ fun ActivityCategory(
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(horizontal = 26.dp),
         modifier = modifier
             .padding(top = 10.dp)
     ) {

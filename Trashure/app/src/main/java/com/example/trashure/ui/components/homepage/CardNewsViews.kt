@@ -1,4 +1,4 @@
-package com.example.trashure.ui.components
+package com.example.trashure.ui.components.homepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

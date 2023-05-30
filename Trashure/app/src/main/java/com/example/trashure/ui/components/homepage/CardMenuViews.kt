@@ -1,4 +1,4 @@
-package com.example.trashure.ui.components
+package com.example.trashure.ui.components.homepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -36,25 +35,25 @@ fun CardMenuViews(
 ) {
     Card(
         modifier = modifier
-            .width(304.dp)
-            .height(58.dp),
+            .width(340.dp)
+            .height(60.dp),
         shape = RoundedCornerShape(10.dp),
         backgroundColor = color
     ){
         Row(
             modifier = modifier
                 .width(80.dp)
-                .padding(start = 14.dp, top = 14.dp, bottom = 14.dp)
+                .padding(start = 14.dp, top = 12.dp, bottom = 12.dp)
         ){
             Image(
                 painter = painterResource(icon),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(top = 2.dp)
+                    .padding(top = 3.dp)
                     .size(30.dp)
             )
             Column( modifier = Modifier
-                .padding(start = 11.dp)
+                .padding(start = 16.dp, top = 2.dp)
                 .weight(1.0f)
             ) {
                 Text(
@@ -74,7 +73,7 @@ fun CardMenuViews(
                 imageVector = Icons.Default.KeyboardArrowRight ,
                 contentDescription = "",
                 modifier = Modifier
-                    .padding(top = 3.dp, end = 20.dp)
+                    .padding(top = 5.dp, end = 24.dp)
             )
         }
     }

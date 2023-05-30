@@ -76,7 +76,7 @@ fun TrashureApp(
 }
 
 @Composable
-private fun BottomBar(
+fun BottomBar(
     navController: NavHostController,
     modifier : Modifier = Modifier
 ) {
