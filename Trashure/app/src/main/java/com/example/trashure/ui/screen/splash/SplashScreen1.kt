@@ -1,8 +1,6 @@
 package com.example.trashure.ui.screen.splash
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,18 +9,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.trashure.R
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import com.example.trashure.ui.theme.PrimaryBackgroundColor
-import com.example.trashure.ui.theme.PrimaryColor
+import androidx.compose.ui.unit.dp
+import com.example.trashure.ui.theme.*
 
 @Composable
 @Preview
-fun SplashScreenMain(
+fun SplashScreen1(
     modifier: Modifier = Modifier
 ) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxSize()
             .background(
@@ -30,13 +29,12 @@ fun SplashScreenMain(
                     colors = listOf(PrimaryBackgroundColor, PrimaryColor)
                 )
             ),
-        contentAlignment = Alignment.Center,
     ) {
         Image(
-            painterResource(id = R.drawable.image_splash),
-            contentDescription = stringResource(id = R.string.image_splash),
-            contentScale = ContentScale.None,
-            modifier = Modifier.align(Alignment.TopStart)
+            painterResource(id = R.drawable.trashure_logo),
+            contentDescription = stringResource(id = R.string.trashure_logo),
+            modifier = Modifier.size(120.dp, 128.dp)
         )
+        
     }
 }

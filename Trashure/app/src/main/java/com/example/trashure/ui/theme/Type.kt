@@ -9,28 +9,7 @@ import com.example.trashure.R
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 
-
-// Set of Material typography styles to start with
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
-)
-
+// Font family Lato
 val Lato: FontFamily = FontFamily(
     Font(R.font.lato_black, weight = FontWeight.Black, style = FontStyle.Normal),
     Font(R.font.lato_bold, weight = FontWeight.Bold, style = FontStyle.Normal),
@@ -45,3 +24,55 @@ val Lato: FontFamily = FontFamily(
     Font(R.font.lato_light_italic, weight = FontWeight.Light, style = FontStyle.Italic),
     Font(R.font.lato_thin_italic, weight = FontWeight.Thin, style = FontStyle.Italic)
 )
+
+// Set of Material typography styles to start with
+val Typography = Typography(
+    defaultFontFamily = Lato,
+    h1 = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 20.sp
+    ),
+    h2 = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 16.sp
+    ),
+    h3 = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 14.sp
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp
+    ),
+    body1 = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp
+    ),
+    caption = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
+    ),
+    button = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp
+    )
+
+)
+
+
+
+    
+
+
