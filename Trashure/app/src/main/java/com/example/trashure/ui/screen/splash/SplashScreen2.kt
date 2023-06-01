@@ -40,7 +40,7 @@ fun SplashScreen2(
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
             Spacer(
-                modifier = Modifier.height(240.dp)
+                modifier = Modifier.height(200.dp)
             )
             Image(
                 painterResource(id = R.drawable.image_splash),
@@ -51,7 +51,7 @@ fun SplashScreen2(
                     .size(282.dp, 158.dp)
             )
             Spacer(
-                modifier = Modifier.height(40.dp)
+                modifier = Modifier.height(30.dp)
             )
             Text(
                 text = stringResource(id = R.string.tagline_1),
@@ -66,7 +66,7 @@ fun SplashScreen2(
                 fontWeight = FontWeight.ExtraBold
             )
             Spacer(
-                modifier = Modifier.height(130.dp)
+                modifier = Modifier.height(80.dp)
             )
             Button(
                 shape = RoundedCornerShape(15.dp),
