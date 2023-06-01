@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Trashure</string>
     <string name="image_splash">Splash screen image</string>
+    <string name="news_title">Berita Hari ini</string>
+    <string name="activity_title">Aktivitas Hari ini</string>
+    <string name="saldo">Saldo Anda</string>
+    <string name="poin">Coin Anda</string>
     <string name="tagline_1">Manage your Trash</string>
     <string name="tagline_2">Like a Treasure</string>
     <string name="sign_in_now">Sign In Now !</string>
@@ -23,5 +27,4 @@
     <string name="name">Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register_desc">Create your account!</string>
-
 </resources>
