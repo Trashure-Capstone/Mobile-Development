@@ -208,10 +208,10 @@ fun ActivityCategory(
         modifier = modifier
             .padding(top = 10.dp)
     ) {
-        items(listActivity) { news ->
+        items(listActivity) { activity ->
             CardActivityViews(
-                image = news.image,
-                title = ""
+                id = activity.id,
+                image = activity.image
             )
         }
     }
