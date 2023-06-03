@@ -46,14 +46,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.trashure.R
 import com.example.trashure.ui.components.MyTopBar
-import com.example.trashure.ui.components.homepage.CardCategoryViews
 import com.example.trashure.ui.components.scanpage.CardInformationViews
 import com.example.trashure.ui.theme.PrimaryColor
 import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
-fun ScanScreen (
+fun ScanScreenContent (
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ){
@@ -80,7 +79,7 @@ fun ScanScreen (
             CardInformationViews(title = "Tipe Plastik", description = "PETE")
             CardInformationViews(title = "Nama Lain", description = "Polyethylene Terephthalate")
             CardInformationViews(title = "Manfaat", description = "memiliki kemampuan untuk mencegah oksigen masuk dan merusak produk didalamnya.")
-            CardInformationViews(title = "Kekurangan", description = "Mengandung antimon trioksida (yang dianggap sebagai karsinogen) yang mampu menyebabkan kanke")
+            CardInformationViews(title = "Kekurangan", description = "Mengandung antimon trioksida (yang dianggap sebagai karsinogen) yang mampu menyebabkan kanker mampu menyebabkan kanke mampu menyebabkan kanke ")
             ButtonScanSell(
                 modifier = modifier
                     .fillMaxWidth()
@@ -95,7 +94,7 @@ fun ScanScreen (
 @Composable
 fun ScanScreenPreview(){
     TrashureTheme {
-        ScanScreen()
+        ScanScreenContent()
     }
 }
 
