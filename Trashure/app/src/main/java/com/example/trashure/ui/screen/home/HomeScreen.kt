@@ -46,7 +46,7 @@ import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
-fun HomeScreen(
+fun HomeScreenContent(
     modifier: Modifier = Modifier,
 ){
     Box(
@@ -101,7 +101,7 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     TrashureTheme {
-        HomeScreen()
+        HomeScreenContent()
     }
 }
 
@@ -208,10 +208,10 @@ fun ActivityCategory(
         modifier = modifier
             .padding(top = 10.dp)
     ) {
-        items(listActivity) { news ->
+        items(listActivity) { activity ->
             CardActivityViews(
-                image = news.image,
-                title = ""
+                id = activity.id,
+                image = activity.image
             )
         }
     }
