@@ -11,8 +11,9 @@ import com.example.trashure.model.Auth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+private val Context.dataStore : DataStore<Preferences> by preferencesDataStore("trashure_datastore")
+
 class TrashurePreferencesDatastore(context: Context) {
-    private val Context.dataStore : DataStore<Preferences> by preferencesDataStore("trashure_datastore")
     
     private var pref = context.dataStore
     

@@ -1,5 +1,6 @@
 package com.example.trashure.ui.screen.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -50,24 +52,54 @@ fun LoginScreen(
             factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
             ),
 ) {
-    viewModel.checkIsLogin()
-    viewModel.isLogin.collectAsState().value.let { uiState ->
-        when (uiState) {
+    
+    viewModel.isLogin.collectAsState(initial = UiState.Empty).value.let{
+            uiState ->
+        when(uiState){
             is UiState.Loading -> {
-                CircularProgressIndicator()
-                viewModel.checkIsLogin()
+                Log.d("collectStateTestLoading", uiState.toString())
             }
             is UiState.Success -> {
                 if(uiState.data){
                     //navigate ke home
-                }
-                else{
-                    LoginScreenContent(modifier = modifier, viewModel)
+    
+                    Log.d("navigateTest", uiState.toString())
+                } else {
+    
+                    Log.d("loginFalseTest", uiState.toString())
+                    LoginScreenContent(modifier = modifier, viewModel = viewModel)
+                    
                 }
             }
-            else -> Unit
+            is UiState.Error -> {
+                Log.d("collectStateTestError", uiState.toString())
+            }
+            else -> {
+                viewModel.checkIsLogin()
+                Log.d("collectStateTestEmpty", uiState.toString())
+            }
+            
         }
     }
+    
+//    viewModel.isLogin.collectAsState().value.let { uiState ->
+//        when (uiState) {
+//            is UiState.Loading -> {
+//                CircularProgressIndicator()
+//                viewModel.checkIsLogin()
+//            }
+//            is UiState.Success -> {
+//                if(uiState.data){
+//                    //navigate ke home
+//                }
+//                else{
+//                    LoginScreenContent(modifier = modifier, viewModel)
+//                }
+//            }
+//            else -> Unit
+//        }
+//    }
+    
 }
 
 @Composable
@@ -111,14 +143,18 @@ fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
             MyTextFieldComponent(
                 labelValue = stringResource(id = R.string.email),
                 iconVector = Icons.Default.Email,
-                onTextChanged = {},
+                onTextChanged = {
+                    viewModel.onEvent(LoginUIEvent.EmailChanged(it))
+                },
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.password),
                 iconVector = Icons.Default.Lock,
-                onTextSelected = {},
+                onTextChanged = {
+                    viewModel.onEvent(LoginUIEvent.PasswordChanged(it))
+                },
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -137,7 +173,9 @@ fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryColor,
                 ),
-                onClick = {},
+                onClick = {
+                          viewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                },
                 modifier = Modifier
                     .padding(horizontal = 40.dp)
                     .fillMaxWidth()
@@ -226,21 +264,23 @@ fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
         
     }
     
-    
-    
-    
-//    if(viewModel.isLoginInProgress.value) {
-//        CircularProgressIndicator()
-//    }
-
+    viewModel.loginState.collectAsState().value.let{
+        if (it == UiState.Loading){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center){
+                CircularProgressIndicator(
+                    color = PrimaryColor
+                )
+            }
+        }
+    }
 }
-//
-//@Preview
-//@Composable
-//fun  loginContent(
-//    viewModel: LoginViewModel = viewModel(
-//        factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
-//    ),
-//){
-//    LoginScreenContent(modifier = Modifier, viewModel = viewModel)
-//}
+
+@Preview
+@Composable
+fun  loginContent(
+    viewModel: LoginViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
+    ),
+){
+    LoginScreenContent(modifier = Modifier, viewModel = viewModel)
+}

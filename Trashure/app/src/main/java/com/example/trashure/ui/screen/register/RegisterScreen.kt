@@ -126,14 +126,14 @@ fun RegisterScreenContent(modifier: Modifier, viewModel: LoginViewModel){
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.password),
                 iconVector = Icons.Default.Lock,
-                onTextSelected = {},
+                onTextChanged = {},
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.confirm_password),
                 iconVector = Icons.Default.Lock,
-                onTextSelected = {},
+                onTextChanged = {},
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
