@@ -48,6 +48,10 @@ class LoginViewModel(
         }
     }
     
+    fun logout(){
+        repository.logout()
+    }
+    
     private fun login(){
         
         val email = loginUIState.value.email

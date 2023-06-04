@@ -23,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,10 +40,12 @@ import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.utils.ViewModelFactory
 
 @Composable
-@Preview
-fun RegisterScreen (modifier: Modifier = Modifier,
-viewModel: LoginViewModel = viewModel(
-factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
+fun RegisterScreen (
+    navigateToLogin: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current)
+        )
 ),
 ) {
     viewModel.checkIsLogin()
@@ -56,7 +57,7 @@ factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.cu
             }
             is UiState.Success -> {
                 if(uiState.data){
-                    //navigate ke home
+                    navigateToLogin()
                 }
                 else{
                     RegisterScreenContent(
