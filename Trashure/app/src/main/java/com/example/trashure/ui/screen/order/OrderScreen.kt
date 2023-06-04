@@ -1,9 +1,11 @@
 package com.example.trashure.ui.screen.order
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -11,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.trashure.ui.theme.TrashureTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -75,24 +76,29 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
     val scope = rememberCoroutineScope()
     // OR ScrollableTabRow()
     TabRow(
+        backgroundColor = Color.White,
         selectedTabIndex = pagerState.currentPage,
         contentColor = Color(0xFF1A395A),
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
             )
         }) {
         tabs.forEachIndexed { index, tab ->
             // OR Tab()
             LeadingIconTab(
                 icon = {},
-                text = { Text(tab.title) },
+                text = {
+                        Text(
+                            text = tab.title
+                        )
+                       },
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
                         pagerState.animateScrollToPage(index)
                     }
-                },
+                }
             )
         }
     }

@@ -9,3 +9,9 @@ data class OrderFinish (
     val time: String,
     val date: String,
 )
+
+val dummyOrderFinish = listOf(
+    OrderFinish(1, "Plastik", true, "17.40" , "26 May 2023"),
+    OrderFinish(1, "Plastik", true, "17.40" , "26 May 2023"),
+    OrderFinish(1, "Plastik", true, "17.40" , "26 May 2023")
+)
