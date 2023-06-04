@@ -4,12 +4,12 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,12 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,12 +41,16 @@ import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.utils.ViewModelFactory
 
 @Composable
-@Preview
 fun LoginScreen(
+    navigateToRegister: () -> Unit,
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel(
-            factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
-            ),
+    viewModel: LoginViewModel =
+        viewModel(
+            factory = ViewModelFactory(
+                Injection.provideRepository(context = LocalContext.current)
+            )
+        ),
 ) {
     
     viewModel.isLogin.collectAsState(initial = UiState.Empty).value.let{
@@ -61,14 +61,14 @@ fun LoginScreen(
             }
             is UiState.Success -> {
                 if(uiState.data){
-                    //navigate ke home
-    
-                    Log.d("navigateTest", uiState.toString())
+                    navigateToHome()
                 } else {
-    
-                    Log.d("loginFalseTest", uiState.toString())
-                    LoginScreenContent(modifier = modifier, viewModel = viewModel)
-                    
+                    LoginScreenContent(
+                        navigateToRegister = navigateToRegister,
+                        navigateToHome = navigateToHome,
+                        modifier = modifier,
+                        viewModel = viewModel
+                    )
                 }
             }
             is UiState.Error -> {
@@ -76,37 +76,24 @@ fun LoginScreen(
             }
             else -> {
                 viewModel.checkIsLogin()
-                Log.d("collectStateTestEmpty", uiState.toString())
             }
             
         }
     }
     
-//    viewModel.isLogin.collectAsState().value.let { uiState ->
-//        when (uiState) {
-//            is UiState.Loading -> {
-//                CircularProgressIndicator()
-//                viewModel.checkIsLogin()
-//            }
-//            is UiState.Success -> {
-//                if(uiState.data){
-//                    //navigate ke home
-//                }
-//                else{
-//                    LoginScreenContent(modifier = modifier, viewModel)
-//                }
-//            }
-//            else -> Unit
-//        }
-//    }
-    
 }
 
 @Composable
-fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
+fun LoginScreenContent(
+    navigateToRegister: () -> Unit,
+    navigateToHome: () -> Unit,
+    modifier: Modifier,
+    viewModel: LoginViewModel
+){
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
+            .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
@@ -190,7 +177,7 @@ fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier.align(CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Image(painterResource(id = R.drawable.image_faded_line),"")
@@ -249,14 +236,16 @@ fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
                             .size(30.dp)
                     )
                 }
-        
             }
+            Spacer(modifier = Modifier.height(30.dp))
         }
         
         AnnotatedClickableText(
             initialText = stringResource(id = R.string.not_a_member)+ " ",
             clickableText = stringResource(R.string.register),
-            onClick = {},
+            onClick = {
+                navigateToRegister()
+            },
             modifier = Modifier
                 .padding(bottom = 40.dp)
                 .align(CenterHorizontally)
@@ -264,23 +253,25 @@ fun LoginScreenContent(modifier: Modifier, viewModel: LoginViewModel){
         
     }
     
-    viewModel.loginState.collectAsState().value.let{
-        if (it == UiState.Loading){
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center){
-                CircularProgressIndicator(
-                    color = PrimaryColor
-                )
+    viewModel.loginState.collectAsState().value.let{ uiState ->
+        when(uiState){
+            is UiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center){
+                    CircularProgressIndicator(
+                        color = PrimaryColor
+                    )
+                }
             }
+            is UiState.Success -> {
+                navigateToHome()
+            }
+            is UiState.Error -> {
+                Log.d("collectStateTestError", uiState.toString())
+            }
+            else -> {
+                viewModel.checkIsLogin()
+            }
+        
         }
     }
-}
-
-@Preview
-@Composable
-fun  loginContent(
-    viewModel: LoginViewModel = viewModel(
-        factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
-    ),
-){
-    LoginScreenContent(modifier = Modifier, viewModel = viewModel)
 }

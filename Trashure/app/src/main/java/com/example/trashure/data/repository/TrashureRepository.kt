@@ -21,7 +21,7 @@ class TrashureRepository(private val context: Context, private val apiService: A
     
     private val preferencesDatastore = TrashurePreferencesDatastore(context)
     
-    fun setAuth(auth:Auth){
+    private fun setAuth(auth:Auth){
         CoroutineScope(Dispatchers.IO).launch{
             preferencesDatastore.setAuth(
                 Auth(

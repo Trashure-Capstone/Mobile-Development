@@ -42,8 +42,16 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.trashure.ui.screen.home.HomeScreen
+import com.example.trashure.ui.screen.login.LoginScreen
+import com.example.trashure.ui.screen.register.RegisterScreen
+import com.example.trashure.ui.screen.splash.SplashScreen1
+import com.example.trashure.ui.screen.splash.SplashScreen2
+import com.example.trashure.ui.theme.PrimaryBackgroundColor
+import com.example.trashure.ui.theme.SecondaryColor
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
@@ -53,23 +61,70 @@ fun TrashureApp(
 ){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val screenWithoutBottomBar:List<String?> =
+        listOf(
+            Screen.Splash1.route,
+            Screen.Splash2.route,
+            Screen.Login.route,
+            Screen.Register.route,
+        )
 
     Scaffold(
         bottomBar = {
-            BottomBar(navController)
+            if(!(screenWithoutBottomBar).contains(currentRoute)){
+                BottomBar(navController)
+            }
         },
         floatingActionButton = {
-            MyUI()
+            if(!(screenWithoutBottomBar).contains(currentRoute)){
+                MyUI()
+            }
         },
         modifier = modifier
     ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Hello World")
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Splash1.route,
+            modifier = Modifier.padding(innerPadding)
+        ){
+            composable(Screen.Splash1.route){
+                SplashScreen1(
+                    navigateToSplashScreen2 = {
+                        navController.navigate(Screen.Splash2.route)
+                    },
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route)
+                    }
+                )
+            }
+            
+            composable(Screen.Splash2.route){
+                SplashScreen2(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    }
+                )
+            }
+            composable(Screen.Login.route){
+                LoginScreen(
+                    navigateToRegister = {
+                        navController.navigate(Screen.Register.route)
+                    },
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route)
+                    }
+                )
+            }
+            composable(Screen.Register.route){
+                RegisterScreen(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    }
+                )
+            }
+            composable(Screen.Home.route){
+                HomeScreen()
+            }
         }
     }
 
@@ -80,16 +135,16 @@ fun BottomBar(
     navController: NavHostController,
     modifier : Modifier = Modifier
 ) {
-    var value by remember { mutableStateOf(20f) }
     BottomNavigation(
-        backgroundColor = Color.White,
-        elevation = 0.dp,
-        modifier = Modifier
+        backgroundColor = Color.Black,
+        elevation = 10.dp,
+        modifier = modifier
             .fillMaxWidth()
+            
             .graphicsLayer {
                 clip = true
-                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
-                shadowElevation = value
+                shape = RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)
+                shadowElevation = 20f
             }
     ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -121,24 +176,16 @@ fun BottomBar(
                 screen = Screen.Profile
             ),
         )
-        BottomNavigation {
+        BottomNavigation(
+            backgroundColor = PrimaryBackgroundColor
+        ) {
             navigationItems.map { item ->
                 BottomNavigationItem(
                     icon = {
-                        if (item.title == "") {
-                            Icon(
+                        Icon(
                                 imageVector = item.icon,
-                                contentDescription = item.title + "_page",
-                                tint = Color(0xFF6200EE)
-
+                                contentDescription = item.title + "_page"
                             )
-                        } else {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.title + "_page",
-                                tint = Color.White
-                            )
-                        }
                     },
                     label = {
                         Text(item.title)

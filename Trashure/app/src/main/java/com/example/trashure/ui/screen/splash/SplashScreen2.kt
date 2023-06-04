@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.trashure.R
 
 import androidx.compose.foundation.background
@@ -23,8 +22,8 @@ import androidx.compose.ui.unit.sp
 import com.example.trashure.ui.theme.*
 
 @Composable
-@Preview
 fun SplashScreen2(
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -76,7 +75,8 @@ fun SplashScreen2(
                     contentColor = PrimaryTextColor,
                     SecondaryBackgroundColor,
                     SecondaryTextColor),
-                onClick = { /*TODO*/ }) {
+                onClick = { navigateToLogin() }
+            ) {
                 Text(text = stringResource(id = R.string.sign_in_now))
             }
         }
