@@ -1,8 +1,11 @@
 package com.example.trashure.ui.screen.register
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -32,7 +35,7 @@ import com.example.trashure.ui.common.UiState
 import com.example.trashure.ui.components.AnnotatedClickableText
 import com.example.trashure.ui.components.MyTextFieldComponent
 import com.example.trashure.ui.components.PasswordTextFieldComponent
-import com.example.trashure.ui.screen.login.LoginViewModel
+import com.example.trashure.ui.screen.login.LoginUIEvent
 import com.example.trashure.ui.theme.Lato
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.PrimaryColor
@@ -43,41 +46,29 @@ import com.example.trashure.utils.ViewModelFactory
 fun RegisterScreen (
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel(
+    viewModel: RegisterViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current)
         )
 ),
 ) {
-    viewModel.checkIsLogin()
-    viewModel.isLogin.collectAsState().value.let { uiState ->
-        when (uiState) {
-            is UiState.Loading -> {
-                CircularProgressIndicator()
-                viewModel.checkIsLogin()
-            }
-            is UiState.Success -> {
-                if(uiState.data){
-                    navigateToLogin()
-                }
-                else{
-                    RegisterScreenContent(
-                        modifier = modifier,
-                        viewModel
-                    )
-                }
-            }
-            else -> Unit
-        }
-    }
+    RegisterScreenContent(
+        navigateToLogin = navigateToLogin,
+        modifier = modifier.fillMaxSize(),
+        viewModel = viewModel
+    )
 }
 
 
 @Composable
-fun RegisterScreenContent(modifier: Modifier, viewModel: LoginViewModel){
+fun RegisterScreenContent(
+    navigateToLogin: () -> Unit,
+    modifier: Modifier,
+    viewModel: RegisterViewModel
+){
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
-            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(PrimaryBackgroundColor, PrimaryColor)
@@ -113,28 +104,41 @@ fun RegisterScreenContent(modifier: Modifier, viewModel: LoginViewModel){
             MyTextFieldComponent(
                 labelValue = stringResource(id = R.string.name),
                 iconVector = Icons.Default.Person,
-                onTextChanged = {},
+                errorStatus = viewModel.registerUIState.value.nameError,
+                onTextChanged = {
+                    viewModel.onEvent(RegisterUIEvent.NameChanged(it))
+                },
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
             MyTextFieldComponent(
                 labelValue = stringResource(id = R.string.email),
                 iconVector = Icons.Default.Email,
-                onTextChanged = {},
+                errorStatus = viewModel.registerUIState.value.emailError,
+                onTextChanged = {
+                    viewModel.onEvent(RegisterUIEvent.EmailChanged(it))
+                },
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.password),
                 iconVector = Icons.Default.Lock,
-                onTextChanged = {},
+                onTextChanged = {
+                    viewModel.onEvent(RegisterUIEvent.PasswordChanged(it))
+                },
+                errorStatus = viewModel.registerUIState.value.passwordError,
+                isLastField = false,
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.confirm_password),
                 iconVector = Icons.Default.Lock,
-                onTextChanged = {},
+                onTextChanged = {
+                    viewModel.onEvent(RegisterUIEvent.ConfirmPasswordChanged(it))
+                },
+                errorStatus = viewModel.registerUIState.value.confirmPasswordError,
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -144,7 +148,10 @@ fun RegisterScreenContent(modifier: Modifier, viewModel: LoginViewModel){
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryColor,
                 ),
-                onClick = {},
+                enabled = viewModel.isAllValidationsPassed.value,
+                onClick = {
+                    viewModel.onEvent(RegisterUIEvent.RegisterButtonClicked)
+                },
                 modifier = Modifier
                     .padding(horizontal = 40.dp)
                     .fillMaxWidth()
@@ -218,18 +225,39 @@ fun RegisterScreenContent(modifier: Modifier, viewModel: LoginViewModel){
                             .size(30.dp)
                     )
                 }
-                
             }
+            Spacer(modifier = Modifier.height(30.dp))
         }
         
         AnnotatedClickableText(
             initialText = stringResource(id = R.string.have_an_account) + " ",
             clickableText = stringResource(R.string.sign_in),
-            onClick = {},
+            onClick = {
+                navigateToLogin()
+            },
             modifier = Modifier
                 .padding(bottom = 40.dp)
                 .align(Alignment.CenterHorizontally)
         )
         
+    }
+    viewModel.registerState.collectAsState().value.let{ uiState ->
+        when(uiState){
+            is UiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                    CircularProgressIndicator(
+                        color = PrimaryColor
+                    )
+                }
+            }
+            is UiState.Success -> {
+                navigateToLogin()
+            }
+            is UiState.Error -> {
+                Log.d("collectStateTestError", uiState.toString())
+            }
+            else -> {}
+            
+        }
     }
 }

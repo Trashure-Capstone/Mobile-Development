@@ -23,6 +23,12 @@ object Validator {
             (!password.isNullOrEmpty() && password.length >= 4)
         )
     }
+    
+    fun validateConfirmPassword(password: String, confirmPassword: String): ValidationResult {
+        return ValidationResult(
+            (!confirmPassword.isNullOrEmpty() && confirmPassword.length >= 4 && password == confirmPassword)
+        )
+    }
 }
 
 data class ValidationResult(

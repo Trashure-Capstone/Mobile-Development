@@ -94,7 +94,6 @@ fun LoginScreenContent(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .verticalScroll(rememberScrollState())
-            .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(PrimaryBackgroundColor, PrimaryColor)
@@ -130,6 +129,7 @@ fun LoginScreenContent(
             MyTextFieldComponent(
                 labelValue = stringResource(id = R.string.email),
                 iconVector = Icons.Default.Email,
+                errorStatus = viewModel.loginUIState.value.emailError,
                 onTextChanged = {
                     viewModel.onEvent(LoginUIEvent.EmailChanged(it))
                 },
@@ -139,6 +139,7 @@ fun LoginScreenContent(
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.password),
                 iconVector = Icons.Default.Lock,
+                errorStatus = viewModel.loginUIState.value.passwordError,
                 onTextChanged = {
                     viewModel.onEvent(LoginUIEvent.PasswordChanged(it))
                 },
@@ -160,6 +161,7 @@ fun LoginScreenContent(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryColor,
                 ),
+                enabled = viewModel.isAllValidationsPassed.value,
                 onClick = {
                           viewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                 },

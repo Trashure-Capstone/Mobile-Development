@@ -38,6 +38,7 @@ fun SplashScreen1(
         ),
 ) {
     //test
+    viewModel.logout()
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier

@@ -109,6 +109,7 @@ fun TrashureApp(
             }
             composable(Screen.Login.route){
                 LoginScreen(
+                    modifier = Modifier.fillMaxSize(),
                     navigateToRegister = {
                         navController.navigate(Screen.Register.route)
                     },

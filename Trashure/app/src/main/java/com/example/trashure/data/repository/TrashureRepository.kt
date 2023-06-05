@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.example.trashure.R
 import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore
+import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore.Companion.token
 import com.example.trashure.data.remote.response.LoginResponse
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.data.remote.response.RegisterResponse
@@ -55,8 +56,21 @@ class TrashureRepository(private val context: Context, private val apiService: A
         setAuth(Auth(false,"",""))
     }
     
-    suspend fun register(name:String, email:String, password:String): RegisterResponse {
-        return apiService.register(name, email, password)
+    fun register(name:String, email:String, password:String): Flow<UiState<RegisterResponse>> = flow {
+        
+        try {
+            emit(UiState.Loading)
+            val response = apiService.register(name, email, password)
+            if (response.error){
+                emit(UiState.Error(response.message))
+            }else{
+                emit(UiState.Success(response))
+            }
+        }
+        catch (e:Exception){
+            emit(UiState.Error(e.message.toString()))
+        }
+        
     }
     
     suspend fun isLogin() = preferencesDatastore.getAuth().first().isLogin

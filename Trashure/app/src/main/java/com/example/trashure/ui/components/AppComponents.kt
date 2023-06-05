@@ -64,7 +64,7 @@ fun MyTextFieldComponent(
         leadingIcon = {
             Icon(iconVector, contentDescription = "")
         },
-        isError = errorStatus
+        isError = !errorStatus
     )
 }
 
@@ -141,7 +141,7 @@ fun PasswordTextFieldComponent(
 
         },
         visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-        isError = errorStatus
+        isError = !errorStatus
     )
 }
 

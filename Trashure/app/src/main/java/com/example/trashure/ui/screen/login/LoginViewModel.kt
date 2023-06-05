@@ -31,10 +31,10 @@ class LoginViewModel(
     val isLogin: StateFlow<UiState<Boolean>> = _isLogin
     
     //handling state of text field
-    private val loginUIState = mutableStateOf(LoginUIState())
+    val loginUIState = mutableStateOf(LoginUIState())
     
     //handling state for validation
-    private val isAllValidationsPassed = mutableStateOf(false)
+    val isAllValidationsPassed = mutableStateOf(false)
     
     fun checkIsLogin() {
         _isLogin.value = UiState.Loading
@@ -56,9 +56,7 @@ class LoginViewModel(
         
         val email = loginUIState.value.email
         val password = loginUIState.value.password
-        Log.d("loginTest",_loginState.value.toString())
         _loginState.value = UiState.Loading
-        Log.d("loginTest",_loginState.value.toString())
         viewModelScope.launch {
             repository.login(email, password)
                 .catch {
@@ -84,7 +82,6 @@ class LoginViewModel(
                 loginUIState.value = loginUIState.value.copy(
                     password = event.password
                 )
-                Log.d("eventTest", loginUIState.value.password)
             }
             
             is LoginUIEvent.LoginButtonClicked -> {
@@ -98,12 +95,10 @@ class LoginViewModel(
         val emailResult = Validator.validateEmail(
             email = loginUIState.value.email
         )
-        Log.d("validateTest", loginUIState.value.email)
         
         val passwordResult = Validator.validatePassword(
             password = loginUIState.value.password
         )
-        Log.d("validateTest", loginUIState.value.password)
         
         loginUIState.value = loginUIState.value.copy(
             emailError = emailResult.status,
