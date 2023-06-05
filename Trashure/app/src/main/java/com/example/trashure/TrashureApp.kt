@@ -40,13 +40,15 @@ import com.example.trashure.ui.navigation.NavigationItem
 import com.example.trashure.ui.navigation.Screen
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.trashure.ui.screen.home.HomeScreen
+import com.example.trashure.ui.screen.home.HomeScreenContent
+import com.example.trashure.ui.screen.inbox.InboxScreenContent
 import com.example.trashure.ui.screen.login.LoginScreen
+import com.example.trashure.ui.screen.order.OrderScreen
+import com.example.trashure.ui.screen.profile.ProfileScreen
 import com.example.trashure.ui.screen.register.RegisterScreen
 import com.example.trashure.ui.screen.splash.SplashScreen1
 import com.example.trashure.ui.screen.splash.SplashScreen2
@@ -123,7 +125,16 @@ fun TrashureApp(
                 )
             }
             composable(Screen.Home.route){
-                HomeScreen()
+                HomeScreenContent()
+            }
+            composable(Screen.Inbox.route){
+                InboxScreenContent()
+            }
+            composable(Screen.Order.route){
+                OrderScreen()
+            }
+            composable(Screen.Profile.route){
+                ProfileScreen()
             }
         }
     }
@@ -140,7 +151,7 @@ fun BottomBar(
         elevation = 10.dp,
         modifier = modifier
             .fillMaxWidth()
-            
+    
             .graphicsLayer {
                 clip = true
                 shape = RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)

@@ -1,4 +1,7 @@
 package com.example.trashure.ui.screen.profile
 
-class ProfileScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun ProfileScreen() {
 }

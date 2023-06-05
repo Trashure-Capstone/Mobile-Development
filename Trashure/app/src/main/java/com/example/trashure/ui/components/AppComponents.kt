@@ -50,7 +50,8 @@ fun MyTextFieldComponent(
             focusedBorderColor = PrimaryColor,
             focusedLabelColor = PrimaryTextColor,
             cursorColor = PrimaryColor,
-            backgroundColor = PrimaryBackgroundColor
+            backgroundColor = PrimaryBackgroundColor,
+            errorBorderColor = ErrorColor
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         singleLine = true,
@@ -96,7 +97,8 @@ fun PasswordTextFieldComponent(
             focusedBorderColor = PrimaryColor,
             focusedLabelColor = PrimaryTextColor,
             cursorColor = PrimaryColor,
-            backgroundColor = PrimaryBackgroundColor
+            backgroundColor = PrimaryBackgroundColor,
+            errorBorderColor = ErrorColor
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
