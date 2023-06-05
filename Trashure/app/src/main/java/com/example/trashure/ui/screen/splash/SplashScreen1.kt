@@ -37,6 +37,7 @@ fun SplashScreen1(
             )
         ),
 ) {
+    //test
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
