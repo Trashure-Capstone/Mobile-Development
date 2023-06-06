@@ -31,4 +31,6 @@
     <string name="logo_title">Logo Jenis Plastik</string>
     <string name="scan_trash">Scan Sampah</string>
     <string name="sell_trash">Jual Sampah</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Ubah Password</string>
 </resources>
