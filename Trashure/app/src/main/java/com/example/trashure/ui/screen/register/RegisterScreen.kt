@@ -14,8 +14,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trashure.R
 import com.example.trashure.di.Injection
@@ -51,11 +51,35 @@ fun RegisterScreen (
         )
 ),
 ) {
+    Log.d("zzz","RegisterScreen")
+    var isLoading by remember{ mutableStateOf(false) }
     RegisterScreenContent(
         navigateToLogin = navigateToLogin,
         modifier = modifier.fillMaxSize(),
-        viewModel = viewModel
+        viewModel = viewModel,
+        isLoading = isLoading
     )
+    viewModel.registerState.collectAsState(initial = UiState.Empty).value.let{ uiState ->
+        when(uiState){
+            is UiState.Loading -> {
+                isLoading = true
+            }
+            is UiState.Success -> {
+                isLoading = false
+                LaunchedEffect(key1 = true) {
+                    navigateToLogin()
+                }
+            }
+            is UiState.Error -> {
+                isLoading = false
+                Log.d("collectStateTestError", uiState.toString())
+            }
+            else -> {
+            
+            }
+            
+        }
+    }
 }
 
 
@@ -63,7 +87,8 @@ fun RegisterScreen (
 fun RegisterScreenContent(
     navigateToLogin: () -> Unit,
     modifier: Modifier,
-    viewModel: RegisterViewModel
+    viewModel: RegisterViewModel,
+    isLoading: Boolean
 ){
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -241,23 +266,12 @@ fun RegisterScreenContent(
         )
         
     }
-    viewModel.registerState.collectAsState().value.let{ uiState ->
-        when(uiState){
-            is UiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                    CircularProgressIndicator(
-                        color = PrimaryColor
-                    )
-                }
-            }
-            is UiState.Success -> {
-                navigateToLogin()
-            }
-            is UiState.Error -> {
-                Log.d("collectStateTestError", uiState.toString())
-            }
-            else -> {}
-            
+    
+    if(isLoading){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            CircularProgressIndicator(
+                color = PrimaryColor
+            )
         }
     }
 }

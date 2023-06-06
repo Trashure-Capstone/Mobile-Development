@@ -16,16 +16,12 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trashure.ui.navigation.NavigationItem
 import com.example.trashure.ui.navigation.Screen
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -44,7 +41,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.trashure.ui.screen.home.HomeScreenContent
+import com.example.trashure.di.Injection
+import com.example.trashure.ui.screen.home.HomeScreen
 import com.example.trashure.ui.screen.inbox.InboxScreenContent
 import com.example.trashure.ui.screen.login.LoginScreen
 import com.example.trashure.ui.screen.order.OrderScreen
@@ -53,8 +51,8 @@ import com.example.trashure.ui.screen.register.RegisterScreen
 import com.example.trashure.ui.screen.splash.SplashScreen1
 import com.example.trashure.ui.screen.splash.SplashScreen2
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
-import com.example.trashure.ui.theme.SecondaryColor
 import com.example.trashure.ui.theme.TrashureTheme
+import com.example.trashure.utils.ViewModelFactory
 
 @Composable
 fun TrashureApp(
@@ -63,7 +61,7 @@ fun TrashureApp(
 ){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val screenWithoutBottomBar:List<String?> =
+    val screenWithoutBottomBar: List<String?> =
         listOf(
             Screen.Splash1.route,
             Screen.Splash2.route,
@@ -92,9 +90,11 @@ fun TrashureApp(
             composable(Screen.Splash1.route){
                 SplashScreen1(
                     navigateToSplashScreen2 = {
+                        navController.popBackStack()
                         navController.navigate(Screen.Splash2.route)
                     },
                     navigateToHome = {
+                        navController.popBackStack()
                         navController.navigate(Screen.Home.route)
                     }
                 )
@@ -103,30 +103,38 @@ fun TrashureApp(
             composable(Screen.Splash2.route){
                 SplashScreen2(
                     navigateToLogin = {
+                        navController.popBackStack()
                         navController.navigate(Screen.Login.route)
                     }
                 )
             }
             composable(Screen.Login.route){
+                val context = LocalContext.current
                 LoginScreen(
-                    modifier = Modifier.fillMaxSize(),
                     navigateToRegister = {
                         navController.navigate(Screen.Register.route)
                     },
                     navigateToHome = {
+                        navController.popBackStack()
                         navController.navigate(Screen.Home.route)
-                    }
+                    },
+                    viewModel = viewModel(
+                        factory = ViewModelFactory(
+                            Injection.provideRepository(context)
+                        )
+                    ),
                 )
             }
             composable(Screen.Register.route){
                 RegisterScreen(
                     navigateToLogin = {
+                        navController.popBackStack()
                         navController.navigate(Screen.Login.route)
                     }
                 )
             }
             composable(Screen.Home.route){
-                HomeScreenContent()
+                HomeScreen()
             }
             composable(Screen.Inbox.route){
                 InboxScreenContent()
@@ -152,7 +160,6 @@ fun BottomBar(
         elevation = 10.dp,
         modifier = modifier
             .fillMaxWidth()
-    
             .graphicsLayer {
                 clip = true
                 shape = RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)

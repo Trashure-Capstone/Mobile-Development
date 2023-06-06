@@ -1,8 +1,9 @@
 package com.example.trashure.ui.screen.splash
 
 import android.util.Log
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -10,8 +11,9 @@ import com.example.trashure.R
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,8 +39,13 @@ fun SplashScreen1(
             )
         ),
 ) {
-    //test
+    Log.d("zzz","Splash1")
     viewModel.logout()
+    var startAnimation by remember { mutableStateOf(false) }
+    val alphaAnim = animateFloatAsState(
+        targetValue = if (startAnimation) 1f else 0f,
+        animationSpec = tween(2000)
+    )
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -52,28 +59,32 @@ fun SplashScreen1(
         Image(
             painterResource(id = R.drawable.trashure_logo),
             contentDescription = stringResource(id = R.string.trashure_logo),
-            modifier = Modifier.size(120.dp, 128.dp)
+            modifier = Modifier
+                .size(120.dp, 128.dp)
+                .alpha(alphaAnim.value)
         )
     }
-    
-    viewModel.isLogin.collectAsState(initial = UiState.Empty).value.let{
-            uiState ->
+//    viewModel.logout()
+    viewModel.isLogin.collectAsState(initial = UiState.Empty).value.let{ uiState ->
         when(uiState){
             is UiState.Loading -> {
-                Log.d("collectStateTestLoading", uiState.toString())
             }
             is UiState.Success -> {
                 if(uiState.data){
-                    LaunchedEffect(Unit){
+                    LaunchedEffect(key1 = true){
+                        startAnimation = true
                         delay(2000)
                         navigateToHome()
                     }
+                    
                 } else {
-                    LaunchedEffect(Unit){
+                    LaunchedEffect(key1 = true){
+                        startAnimation = true
                         delay(2000)
                         navigateToSplashScreen2()
                     }
                     
+
                 }
             }
             is UiState.Error -> {

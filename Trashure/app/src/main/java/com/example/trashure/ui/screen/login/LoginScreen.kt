@@ -11,8 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -45,37 +44,34 @@ fun LoginScreen(
     navigateToRegister: () -> Unit,
     navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel =
-        viewModel(
-            factory = ViewModelFactory(
-                Injection.provideRepository(context = LocalContext.current)
-            )
-        ),
+    viewModel: LoginViewModel
 ) {
-    
-    viewModel.isLogin.collectAsState(initial = UiState.Empty).value.let{
-            uiState ->
+    Log.d("zzz","loginScreen")
+    var isLoading by remember{ mutableStateOf(false)}
+    LoginScreenContent(
+        navigateToRegister = navigateToRegister,
+        modifier = modifier,
+        viewModel = viewModel,
+        isLoading = isLoading
+    )
+    viewModel.loginState.collectAsState(initial = UiState.Empty).value.let{ uiState ->
         when(uiState){
             is UiState.Loading -> {
-                Log.d("collectStateTestLoading", uiState.toString())
+                isLoading = true
             }
             is UiState.Success -> {
-                if(uiState.data){
+                isLoading = false
+                LaunchedEffect(key1 = true){
                     navigateToHome()
-                } else {
-                    LoginScreenContent(
-                        navigateToRegister = navigateToRegister,
-                        navigateToHome = navigateToHome,
-                        modifier = modifier,
-                        viewModel = viewModel
-                    )
                 }
+                
             }
             is UiState.Error -> {
+                isLoading = false
                 Log.d("collectStateTestError", uiState.toString())
             }
             else -> {
-                viewModel.checkIsLogin()
+            
             }
             
         }
@@ -86,9 +82,9 @@ fun LoginScreen(
 @Composable
 fun LoginScreenContent(
     navigateToRegister: () -> Unit,
-    navigateToHome: () -> Unit,
     modifier: Modifier,
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel,
+    isLoading: Boolean
 ){
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -163,7 +159,7 @@ fun LoginScreenContent(
                 ),
                 enabled = viewModel.isAllValidationsPassed.value,
                 onClick = {
-                          viewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                    viewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                 },
                 modifier = Modifier
                     .padding(horizontal = 40.dp)
@@ -255,25 +251,11 @@ fun LoginScreenContent(
         
     }
     
-    viewModel.loginState.collectAsState().value.let{ uiState ->
-        when(uiState){
-            is UiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center){
-                    CircularProgressIndicator(
-                        color = PrimaryColor
-                    )
-                }
-            }
-            is UiState.Success -> {
-                navigateToHome()
-            }
-            is UiState.Error -> {
-                Log.d("collectStateTestError", uiState.toString())
-            }
-            else -> {
-                viewModel.checkIsLogin()
-            }
-        
+    if(isLoading){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center){
+            CircularProgressIndicator(
+                color = PrimaryColor
+            )
         }
     }
 }

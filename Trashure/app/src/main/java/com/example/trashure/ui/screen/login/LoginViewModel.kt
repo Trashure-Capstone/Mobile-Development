@@ -2,16 +2,12 @@ package com.example.trashure.ui.screen.login
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.trashure.data.repository.TrashureRepository
-import com.example.trashure.data.remote.response.LoginResponse
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.ui.common.UiState
-import com.example.trashure.ui.screen.login.LoginUIEvent
-import com.example.trashure.ui.screen.login.LoginUIState
 import com.example.trashure.utils.Validator
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,6 +15,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val repository: TrashureRepository
     ) : ViewModel() {
+    
     
     //handling state for login response
     private val _loginState: MutableStateFlow<UiState<LoginResult>> =
@@ -37,9 +34,9 @@ class LoginViewModel(
     val isAllValidationsPassed = mutableStateOf(false)
     
     fun checkIsLogin() {
-        _isLogin.value = UiState.Loading
         viewModelScope.launch{
             try {
+                _isLogin.value = UiState.Loading
                 val isLogin = repository.isLogin()
                 _isLogin.value = UiState.Success(isLogin)
             } catch(e:Exception) {
@@ -53,11 +50,13 @@ class LoginViewModel(
     }
     
     private fun login(){
+        Log.d("yyy","login")
         
         val email = loginUIState.value.email
         val password = loginUIState.value.password
-        _loginState.value = UiState.Loading
+        
         viewModelScope.launch {
+            _loginState.value = UiState.Loading
             repository.login(email, password)
                 .catch {
                     _loginState.value = UiState.Error(it.message.toString())

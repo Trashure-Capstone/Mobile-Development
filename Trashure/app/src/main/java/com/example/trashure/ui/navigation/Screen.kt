@@ -3,7 +3,7 @@ package com.example.trashure.ui.navigation
 sealed class Screen(val route: String) {
     object Home     : Screen("home")
     object Order    : Screen("order")
-    object ScanPage : Screen("scan_page")
+    object ScanPage : Screen("scan")
     object Inbox    : Screen("inbox")
     object Profile  : Screen("profile")
     object Splash1  : Screen("splash_1")

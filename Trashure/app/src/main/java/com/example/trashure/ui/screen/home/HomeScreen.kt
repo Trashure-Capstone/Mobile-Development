@@ -1,5 +1,6 @@
 package com.example.trashure.ui.screen.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,14 @@ import com.example.trashure.ui.components.homepage.CardNewsViews
 import com.example.trashure.ui.components.homepage.HomeSection
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.TrashureTheme
+
+@Composable
+fun HomeScreen(
+    modifier: Modifier = Modifier
+){
+    Log.d("zzz","HomeScreen")
+    HomeScreenContent(modifier)
+}
 
 @Composable
 fun HomeScreenContent(
