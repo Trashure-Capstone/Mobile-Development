@@ -1,6 +1,7 @@
 package com.example.trashure.ui.components.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,6 +59,7 @@ fun CardMenuProfileViews (
                 Row(
                     modifier = modifier
                         .padding(end = 72.dp)
+                        .clickable {  }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.edit_profile),
@@ -77,14 +79,57 @@ fun CardMenuProfileViews (
 
                 Row {
                     Icon(
-                        painter = painterResource(id = R.drawable.edit_profile),
+                        painter = painterResource(id = R.drawable.gearfill),
                         contentDescription = null,
                         modifier = modifier
                             .size(30.dp)
                             .padding(end = 10.dp)
                     )
                     Text(
-                        text = "Edit Profile",
+                        text = "Pengaturan",
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        modifier = modifier
+                            .align(CenterVertically)
+                    )
+                }
+            }
+
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
+                Row(
+                    modifier = modifier
+                        .padding(end = 48.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.keyfill),
+                        contentDescription = null,
+                        modifier = modifier
+                            .size(30.dp)
+                            .padding(end = 10.dp)
+                    )
+                    Text(
+                        text = "Ubah Password",
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        modifier = modifier
+                            .align(CenterVertically)
+                    )
+                }
+
+                Row {
+                    Icon(
+                        painter = painterResource(id = R.drawable.shieldfillexclamation),
+                        contentDescription = null,
+                        modifier = modifier
+                            .size(30.dp)
+                            .padding(end = 10.dp)
+                    )
+                    Text(
+                        text = "Pusat Bantuan",
                         fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
                         modifier = modifier
@@ -103,14 +148,14 @@ fun CardMenuProfileViews (
                         .padding(end = 72.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.edit_profile),
+                        painter = painterResource(id = R.drawable.peoplefill),
                         contentDescription = null,
                         modifier = modifier
                             .size(30.dp)
                             .padding(end = 10.dp)
                     )
                     Text(
-                        text = "Edit Profile",
+                        text = "Kode Referral",
                         fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
                         modifier = modifier
@@ -118,65 +163,6 @@ fun CardMenuProfileViews (
                     )
                 }
 
-                Row {
-                    Icon(
-                        painter = painterResource(id = R.drawable.edit_profile),
-                        contentDescription = null,
-                        modifier = modifier
-                            .size(30.dp)
-                            .padding(end = 10.dp)
-                    )
-                    Text(
-                        text = "Edit Profile",
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp,
-                        modifier = modifier
-                            .align(CenterVertically)
-                    )
-                }
-            }
-
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
-            ) {
-                Row(
-                    modifier = modifier
-                        .padding(end = 72.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.edit_profile),
-                        contentDescription = null,
-                        modifier = modifier
-                            .size(30.dp)
-                            .padding(end = 10.dp)
-                    )
-                    Text(
-                        text = "Edit Profile",
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp,
-                        modifier = modifier
-                            .align(CenterVertically)
-                    )
-                }
-
-                Row {
-                    Icon(
-                        painter = painterResource(id = R.drawable.edit_profile),
-                        contentDescription = null,
-                        modifier = modifier
-                            .size(30.dp)
-                            .padding(end = 10.dp)
-                    )
-                    Text(
-                        text = "Edit Profile",
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp,
-                        modifier = modifier
-                            .align(CenterVertically)
-                    )
-                }
             }
         }
     }
