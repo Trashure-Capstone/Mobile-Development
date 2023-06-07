@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.trashure.ui.screen.order.OrderScreen
 import com.example.trashure.ui.screen.order.TabItem
 import com.example.trashure.ui.screen.order.TabsContent
+import com.example.trashure.ui.screen.profile.EditProfileScreen
 import com.example.trashure.ui.theme.TrashureTheme
 import com.google.accompanist.pager.rememberPagerState
 
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TrashureTheme {
-                TrashureApp()
+                EditProfileScreen()
             }
         }
     }
