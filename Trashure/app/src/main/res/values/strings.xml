@@ -33,4 +33,6 @@
     <string name="sell_trash">Jual Sampah</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="change_password">Ubah Password</string>
+    <string name="choose_market">Pilih toko yang ingin kamu beli</string>
+    <string name="umkm_market">UMKM Market</string>
 </resources>
