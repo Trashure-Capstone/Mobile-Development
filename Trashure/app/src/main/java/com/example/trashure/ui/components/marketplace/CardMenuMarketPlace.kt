@@ -64,7 +64,7 @@ fun CardMenuMarketPlace (
 
 @Composable
 @Preview(showBackground = true)
-fun CardMenuMarketPreview(){
+fun CardMenuMarketPlacePreview(){
     TrashureTheme {
         CardMenuMarketPlace(
             R.drawable.shopping_basket,
