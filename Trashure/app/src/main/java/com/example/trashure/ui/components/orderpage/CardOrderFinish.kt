@@ -1,9 +1,11 @@
 package com.example.trashure.ui.components.orderpage
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -12,7 +14,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,9 +27,10 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CardOrderFinish(
-    title : String,
+    id : String,
     time : String,
     date : String,
+    status : String,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -37,7 +42,7 @@ fun CardOrderFinish(
         Row(
             modifier = modifier
                 .width(80.dp)
-                .padding(start = 12.dp, top = 12.dp, bottom = 12.dp, end = 12.dp)
+                .padding(start = 12.dp, top = 12.dp, bottom = 12.dp, end = 20.dp)
         ){
             Image(
                 painter = painterResource(R.drawable.vector_recycle),
@@ -53,7 +58,7 @@ fun CardOrderFinish(
                 .weight(1.0f)
             ) {
                 Text(
-                    text = "Pesanan sampah $title telah selesai",
+                    text = id,
                     maxLines = 1,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -83,6 +88,29 @@ fun CardOrderFinish(
                     )
                 }
             }
+            Card(
+                modifier = modifier
+                    .width(82.dp)
+                    .height(20.dp),
+                shape = RoundedCornerShape(20.dp),
+                backgroundColor = if (status == "Selesai") Color(0xFF7BBB71) else Color(0xFFF47078),
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        6.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = status,
+                        color = Color.White,
+                        maxLines = 10,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
         }
     }
 }
@@ -93,9 +121,10 @@ fun CardOrderFinish(
 fun CardOrderFinishPreview() {
     TrashureTheme {
         CardOrderFinish(
-            "Plastik",
+            "ID121212131",
             "17.40",
-            "26 May 2023"
+            "26 May 2023",
+            "Selesai",
         )
     }
 }

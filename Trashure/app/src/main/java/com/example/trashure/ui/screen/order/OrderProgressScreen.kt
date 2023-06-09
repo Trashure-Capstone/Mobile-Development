@@ -54,9 +54,11 @@ fun ListOrderProgress(
     ){
         items(listOrderProgress){data ->
             CardOrderProgress(
-                title = data.title,
-                description = data.description )
+                id = data.id,
+                description = data.description,
+                time = data.time,
+                date = data.date
+            )
         }
-
     }
 }

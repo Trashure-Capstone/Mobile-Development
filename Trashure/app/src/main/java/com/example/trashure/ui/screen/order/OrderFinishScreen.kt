@@ -51,9 +51,11 @@ fun ListOrderFinish(
     ){
         items(listOrderFinish){data ->
             CardOrderFinish(
-                title = data.title,
+                id = data.title,
                 time = data.time,
-                date = data.date )
+                date = data.date,
+                status =data.status,
+            )
         }
 
     }
