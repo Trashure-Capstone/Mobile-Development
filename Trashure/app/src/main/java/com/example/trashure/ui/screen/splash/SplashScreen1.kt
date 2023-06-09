@@ -12,7 +12,6 @@ import com.example.trashure.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
@@ -24,7 +23,6 @@ import com.example.trashure.ui.common.UiState
 import com.example.trashure.ui.screen.login.LoginViewModel
 import com.example.trashure.ui.theme.*
 import com.example.trashure.utils.ViewModelFactory
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,8 +37,6 @@ fun SplashScreen1(
             )
         ),
 ) {
-    Log.d("zzz","Splash1")
-    viewModel.logout()
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,

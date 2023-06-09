@@ -53,7 +53,10 @@ fun MyTextFieldComponent(
             backgroundColor = PrimaryBackgroundColor,
             errorBorderColor = ErrorColor
         ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
+        ),
         singleLine = true,
         maxLines = 1,
         value = textValue.value,
@@ -144,13 +147,6 @@ fun PasswordTextFieldComponent(
         isError = !errorStatus
     )
 }
-
-@Preview
-@Composable
-fun clickableTextPreview (){
-    AnnotatedClickableText(initialText = "Not a member? ", clickableText = "Register", onClick = {}, Modifier)
-}
-
 
 @Composable
 fun AnnotatedClickableText(

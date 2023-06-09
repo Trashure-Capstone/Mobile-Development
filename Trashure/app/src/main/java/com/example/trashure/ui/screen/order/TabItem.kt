@@ -1,7 +1,6 @@
 package com.example.trashure.ui.screen.order
 
 import androidx.compose.runtime.Composable
-import com.example.trashure.R
 
 typealias ComposableFun = @Composable () -> Unit
 

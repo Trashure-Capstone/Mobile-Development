@@ -1,6 +1,6 @@
 package com.example.trashure
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,12 +9,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Email
@@ -48,6 +43,8 @@ import com.example.trashure.ui.screen.login.LoginScreen
 import com.example.trashure.ui.screen.order.OrderScreen
 import com.example.trashure.ui.screen.profile.ProfileScreen
 import com.example.trashure.ui.screen.register.RegisterScreen
+import com.example.trashure.ui.screen.scan.ScanScreen
+import com.example.trashure.ui.screen.scan.ScanScreenContent
 import com.example.trashure.ui.screen.splash.SplashScreen1
 import com.example.trashure.ui.screen.splash.SplashScreen2
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
@@ -68,7 +65,7 @@ fun TrashureApp(
             Screen.Login.route,
             Screen.Register.route,
         )
-
+    
     Scaffold(
         bottomBar = {
             if(!(screenWithoutBottomBar).contains(currentRoute)){
@@ -77,7 +74,11 @@ fun TrashureApp(
         },
         floatingActionButton = {
             if(!(screenWithoutBottomBar).contains(currentRoute)){
-                MyUI()
+                MyUI(
+                    navigateToScan = {
+                        navController.navigate(Screen.ScanPage.route)
+                    }
+                )
             }
         },
         modifier = modifier
@@ -117,12 +118,7 @@ fun TrashureApp(
                     navigateToHome = {
                         navController.popBackStack()
                         navController.navigate(Screen.Home.route)
-                    },
-                    viewModel = viewModel(
-                        factory = ViewModelFactory(
-                            Injection.provideRepository(context)
-                        )
-                    ),
+                    }
                 )
             }
             composable(Screen.Register.route){
@@ -144,6 +140,14 @@ fun TrashureApp(
             }
             composable(Screen.Profile.route){
                 ProfileScreen()
+            }
+            composable(Screen.ScanPage.route){
+                ScanScreen(
+                    navigateBack = {
+                        Log.d("navigateBack","")
+                        navController.navigateUp()
+                    }
+                )
             }
         }
     }
@@ -226,9 +230,9 @@ fun BottomBar(
 }
 
 @Composable
-fun MyUI() {
-    val contextForToast = LocalContext.current.applicationContext
-
+fun MyUI(
+    navigateToScan : () -> Unit
+) {
     Box(modifier = Modifier.fillMaxSize()){
         FloatingActionButton(
             modifier = Modifier
@@ -237,8 +241,7 @@ fun MyUI() {
                 .offset(x = 18.dp, y = 60.dp)
                 .size(70.dp),
             onClick = {
-                Toast.makeText(contextForToast, "Click", Toast.LENGTH_SHORT)
-                    .show()
+                navigateToScan()
             },
             backgroundColor = Color(0xFF7BBB71)
         ) {

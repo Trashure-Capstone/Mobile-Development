@@ -2,10 +2,11 @@ package com.example.trashure.data.remote.service
 
 import com.example.trashure.data.remote.response.LoginResponse
 import com.example.trashure.data.remote.response.RegisterResponse
+import com.example.trashure.data.remote.response.ScanResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -23,5 +24,10 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String,
     ): RegisterResponse
-
+    
+    @Multipart
+    @POST("stories")
+    suspend fun scan(
+        @Part file: MultipartBody.Part
+    ): ScanResponse
 }

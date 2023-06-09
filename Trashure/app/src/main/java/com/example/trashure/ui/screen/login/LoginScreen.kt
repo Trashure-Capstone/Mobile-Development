@@ -44,9 +44,12 @@ fun LoginScreen(
     navigateToRegister: () -> Unit,
     navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel = viewModel(
+        factory = ViewModelFactory(
+            Injection.provideRepository(context = LocalContext.current)
+        )
+    ),
 ) {
-    Log.d("zzz","loginScreen")
     var isLoading by remember{ mutableStateOf(false)}
     LoginScreenContent(
         navigateToRegister = navigateToRegister,

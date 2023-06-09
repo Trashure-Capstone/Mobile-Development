@@ -1,6 +1,5 @@
 package com.example.trashure.ui.screen.splash
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +26,6 @@ fun SplashScreen2(
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Log.d("zzz","Splash2")
     Box(
         modifier = modifier
             .fillMaxSize()

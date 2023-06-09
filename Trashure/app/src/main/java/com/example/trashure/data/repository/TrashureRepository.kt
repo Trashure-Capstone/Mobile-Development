@@ -2,11 +2,7 @@ package com.example.trashure.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
-import com.example.trashure.R
 import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore
-import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore.Companion.token
-import com.example.trashure.data.remote.response.LoginResponse
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.data.remote.response.RegisterResponse
 import com.example.trashure.data.remote.service.ApiService
@@ -14,9 +10,10 @@ import com.example.trashure.model.Auth
 import com.example.trashure.ui.common.UiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import okhttp3.MultipartBody
 
 class TrashureRepository(private val context: Context, private val apiService: ApiService) {
     
@@ -71,6 +68,23 @@ class TrashureRepository(private val context: Context, private val apiService: A
             emit(UiState.Error(e.message.toString()))
         }
         
+    }
+    
+    fun scan(file: MultipartBody.Part) = flow {
+        try {
+            emit(UiState.Loading)
+            delay(2000)
+            emit(UiState.Success(true))
+//            val response = apiService.scan(file)
+//            if (response.error){
+//                emit(UiState.Error(response.message))
+//            }else{
+//                emit(UiState.Success(response))
+//            }
+        }
+        catch (e:Exception){
+            emit(UiState.Error(e.message.toString()))
+        }
     }
     
     suspend fun isLogin() = preferencesDatastore.getAuth().first().isLogin
