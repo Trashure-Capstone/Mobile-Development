@@ -2,6 +2,7 @@ package com.example.trashure.ui.components.marketplace
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +29,7 @@ import okhttp3.internal.wait
 
 @Composable
 fun CardMenuMarketPlace (
+    navigateMarket: () -> Unit,
     icon : Int,
     title : String,
     modifier: Modifier = Modifier
@@ -35,9 +37,10 @@ fun CardMenuMarketPlace (
     Card (
         modifier = modifier
             .width(120.dp)
-            .height(120.dp),
+            .height(120.dp)
+            .clickable { navigateMarket() },
         shape = RoundedCornerShape(18.dp),
-        border = BorderStroke(width = 1.dp, color = Color.Black)
+        border = BorderStroke(width = 1.dp, color = Color.Black),
 
     ){
         Column(
@@ -67,6 +70,7 @@ fun CardMenuMarketPlace (
 fun CardMenuMarketPlacePreview(){
     TrashureTheme {
         CardMenuMarketPlace(
+            {},
             R.drawable.shopping_basket,
              "Trashure Market"
         )

@@ -48,14 +48,16 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun HomeScreen(
+    navigateToMarketPlace : () -> Unit,
     modifier: Modifier = Modifier
 ){
     Log.d("zzz","HomeScreen")
-    HomeScreenContent(modifier)
+    HomeScreenContent(navigateToMarketPlace,modifier)
 }
 
 @Composable
 fun HomeScreenContent(
+    navigateToMarketPlace : () -> Unit,
     modifier: Modifier = Modifier,
 ){
     Box(
@@ -88,9 +90,9 @@ fun HomeScreenContent(
             modifier = modifier
                 .padding(top = 10.dp)
         ) {
-            MenuCategory(dummyMenu)
+            MenuCategory({},dummyMenu)
         }
-        MenuCategory(dummyMenuToko)
+        MenuCategory(navigateToMarketPlace, dummyMenuToko)
         HomeSection(
             title = stringResource(R.string.news_title),
             content = { NewsCategory(dummyNews)},
@@ -110,7 +112,7 @@ fun HomeScreenContent(
 @Composable
 fun HomeScreenPreview() {
     TrashureTheme {
-        HomeScreenContent()
+        HomeScreenContent({})
     }
 }
 
@@ -163,6 +165,7 @@ fun TextPreview() {
 
 @Composable
 fun MenuCategory(
+    navigateToMarketPlace : () -> Unit,
     listMenu: List<Menu>,
     modifier: Modifier = Modifier,
 ){
@@ -175,12 +178,23 @@ fun MenuCategory(
             .padding(top = 16.dp)
     ) {
         items(listMenu){data ->
-            CardMenuViews(
-                icon = data.icon,
-                title = data.title,
-                description = data.description,
-                color = data.color
-            )
+            if ( data.title == "Toko Sampah") {
+                CardMenuViews(
+                    navigate = navigateToMarketPlace,
+                    icon = data.icon,
+                    title = data.title,
+                    description = data.description,
+                    color = data.color
+                )
+            }else{
+                CardMenuViews(
+                    navigate = { },
+                    icon = data.icon,
+                    title = data.title,
+                    description = data.description,
+                    color = data.color
+                )
+            }
         }
     }
 }

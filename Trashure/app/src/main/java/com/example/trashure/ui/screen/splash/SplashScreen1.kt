@@ -40,7 +40,6 @@ fun SplashScreen1(
         ),
 ) {
     Log.d("zzz","Splash1")
-    viewModel.logout()
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,

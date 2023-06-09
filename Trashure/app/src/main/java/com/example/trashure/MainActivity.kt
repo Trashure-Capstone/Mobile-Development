@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TrashureTheme {
-                UMKMScreen(menuSections)
+                TrashureApp()
             }
         }
     }

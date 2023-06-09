@@ -3,6 +3,7 @@ package com.example.trashure.ui.screen.marketplace
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,6 +39,8 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun MarketPlaceScreen(
+    navigateToUserMarket: () -> Unit,
+    navigateToUMKMMarket: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Scaffold(
@@ -63,8 +66,11 @@ fun MarketPlaceScreen(
                     .padding(top = 120.dp)
             )
             Spacer(modifier = Modifier.height(26.dp))
-            showMarketMenu(dummyMarketCategory, modifier = modifier.fillMaxWidth())
-
+            showMarketMenu(
+                modifier = modifier.fillMaxWidth(),
+                navigateToUMKMMarket = navigateToUMKMMarket,
+                navigateToUserMarket = navigateToUserMarket
+            )
         }
 
     }
@@ -74,7 +80,9 @@ fun MarketPlaceScreen(
 @Preview
 fun MarketPlaceScreenPreview(){
     TrashureTheme {
-        MarketPlaceScreen()
+        MarketPlaceScreen(
+            {},{}
+        )
     }
 }
 
@@ -119,21 +127,26 @@ fun TopBarMarketPreview(){
 
 @Composable
 fun showMarketMenu(
-    listMarketMenu : List<MarketCategory>,
+    navigateToUserMarket: () -> Unit,
+    navigateToUMKMMarket: () -> Unit,
     modifier: Modifier = Modifier
-){
-    LazyRow(
+) {
+    Row(
         horizontalArrangement = Arrangement.SpaceAround,
-        contentPadding = PaddingValues(horizontal = 26.dp),
         modifier = modifier
             .padding(top = 10.dp)
     ) {
-        items(listMarketMenu) { data ->
-            CardMenuMarketPlace(
-                icon = data.icon,
-                title = data.title
-            )
-        }
-    }
+        CardMenuMarketPlace(
+            icon = R.drawable.shopping_basket,
+            title = "Trashure Market",
+            navigateMarket = navigateToUserMarket
 
+        )
+        CardMenuMarketPlace(
+            icon = R.drawable.store,
+            title = "UMKM Market",
+            navigateMarket = navigateToUMKMMarket
+        )
+    }
 }
+

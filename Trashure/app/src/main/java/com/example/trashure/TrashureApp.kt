@@ -42,10 +42,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.trashure.di.Injection
+import com.example.trashure.model.menuSections
 import com.example.trashure.ui.screen.home.HomeScreen
 import com.example.trashure.ui.screen.inbox.InboxScreenContent
 import com.example.trashure.ui.screen.login.LoginScreen
+import com.example.trashure.ui.screen.marketplace.MarketPlaceScreen
+import com.example.trashure.ui.screen.marketplace.UMKMScreen
+import com.example.trashure.ui.screen.marketplace.UserMarketScreen
 import com.example.trashure.ui.screen.order.OrderScreen
+import com.example.trashure.ui.screen.profile.ChangePasswordScreen
+import com.example.trashure.ui.screen.profile.EditProfileScreen
 import com.example.trashure.ui.screen.profile.ProfileScreen
 import com.example.trashure.ui.screen.register.RegisterScreen
 import com.example.trashure.ui.screen.splash.SplashScreen1
@@ -67,6 +73,11 @@ fun TrashureApp(
             Screen.Splash2.route,
             Screen.Login.route,
             Screen.Register.route,
+            Screen.EditProfile.route,
+            Screen.ChangePassword.route,
+            Screen.TrashureMarket.route,
+            Screen.MarketPage.route,
+            Screen.UMKMMarket.route
         )
 
     Scaffold(
@@ -134,7 +145,11 @@ fun TrashureApp(
                 )
             }
             composable(Screen.Home.route){
-                HomeScreen()
+                HomeScreen(
+                    navigateToMarketPlace = {
+                        navController.navigate(Screen.MarketPage.route)
+                    }
+                )
             }
             composable(Screen.Inbox.route){
                 InboxScreenContent()
@@ -143,7 +158,36 @@ fun TrashureApp(
                 OrderScreen()
             }
             composable(Screen.Profile.route){
-                ProfileScreen()
+                ProfileScreen(
+                    navigateToEditProfile = {
+                        navController.navigate(Screen.EditProfile.route)
+                    },
+                    navigateToChangePassword = {
+                        navController.navigate(Screen.ChangePassword.route)
+                    }
+                )
+            }
+            composable(Screen.EditProfile.route){
+                EditProfileScreen()
+            }
+            composable(Screen.ChangePassword.route){
+                ChangePasswordScreen()
+            }
+            composable(Screen.MarketPage.route){
+                MarketPlaceScreen(
+                    navigateToUMKMMarket = {
+                        navController.navigate(Screen.UMKMMarket.route)
+                    },
+                    navigateToUserMarket = {
+                        navController.navigate(Screen.TrashureMarket.route)
+                    }
+                )
+            }
+            composable(Screen.UMKMMarket.route){
+                UMKMScreen(menuSections)
+            }
+            composable(Screen.TrashureMarket.route){
+                UserMarketScreen(menuSections)
             }
         }
     }

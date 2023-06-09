@@ -10,4 +10,9 @@ sealed class Screen(val route: String) {
     object Splash2  : Screen("splash_2")
     object Login    : Screen("login")
     object Register : Screen("register")
+    object EditProfile : Screen("edit_profile")
+    object ChangePassword : Screen("change_password")
+    object MarketPage : Screen("market_page")
+    object UMKMMarket : Screen("umkm_market")
+    object TrashureMarket : Screen("trashure_market")
 }
