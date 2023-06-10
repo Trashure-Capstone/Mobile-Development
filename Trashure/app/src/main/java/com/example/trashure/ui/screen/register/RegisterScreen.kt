@@ -27,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trashure.R
 import com.example.trashure.di.Injection
@@ -35,7 +34,6 @@ import com.example.trashure.ui.common.UiState
 import com.example.trashure.ui.components.AnnotatedClickableText
 import com.example.trashure.ui.components.MyTextFieldComponent
 import com.example.trashure.ui.components.PasswordTextFieldComponent
-import com.example.trashure.ui.screen.login.LoginUIEvent
 import com.example.trashure.ui.theme.Lato
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.PrimaryColor
@@ -51,7 +49,6 @@ fun RegisterScreen (
         )
 ),
 ) {
-    Log.d("zzz","RegisterScreen")
     var isLoading by remember{ mutableStateOf(false) }
     RegisterScreenContent(
         navigateToLogin = navigateToLogin,
