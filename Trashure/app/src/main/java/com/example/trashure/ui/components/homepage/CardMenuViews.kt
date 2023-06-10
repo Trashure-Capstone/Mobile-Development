@@ -1,6 +1,7 @@
 package com.example.trashure.ui.components.homepage
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -27,6 +28,7 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CardMenuViews(
+    navigate: () -> Unit,
     icon: Int,
     title: String,
     description: String,
@@ -36,7 +38,8 @@ fun CardMenuViews(
     Card(
         modifier = modifier
             .width(340.dp)
-            .height(60.dp),
+            .height(60.dp)
+            .clickable { navigate() },
         shape = RoundedCornerShape(10.dp),
         backgroundColor = color
     ){
@@ -84,6 +87,7 @@ fun CardMenuViews(
 fun CardMenuPreview() {
     TrashureTheme {
         CardMenuViews(
+            {},
             R.drawable.recycling,
             "Jual Sampah",
             "Bersihkan lingkunganmu sekarang",

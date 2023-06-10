@@ -31,6 +31,8 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun ProfileScreen(
+    navigateToEditProfile: () -> Unit,
+    navigateToChangePassword : () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -72,7 +74,7 @@ fun ProfileScreen(
             phoneNumber ="08211221312313"
         )
         Spacer(modifier = Modifier.height(26.dp))
-        CardMenuProfileViews()
+        CardMenuProfileViews(navigateToEditProfile, navigateToChangePassword)
         Spacer(modifier = Modifier.height(26.dp))
         ButtonLogout()
     }
@@ -82,7 +84,7 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenPreview(){
     TrashureTheme {
-        ProfileScreen()
+        ProfileScreen(navigateToEditProfile = {}, navigateToChangePassword = {})
     }
 }
 

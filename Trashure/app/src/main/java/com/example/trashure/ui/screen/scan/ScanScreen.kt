@@ -244,7 +244,7 @@ fun ScanScreenContent (
             CardInformationViews(title = "Tipe Plastik", description = "PETE")
             CardInformationViews(title = "Nama Lain", description = "Polyethylene Terephthalate")
             CardInformationViews(title = "Manfaat", description = "memiliki kemampuan untuk mencegah oksigen masuk dan merusak produk didalamnya.")
-            CardInformationViews(title = "Kekurangan", description = "Mengandung antimon trioksida (yang dianggap sebagai karsinogen) yang mampu menyebabkan kanker mampu menyebabkan kanke mampu menyebabkan kanke ")
+            CardInformationViews(title = "Kekurangan", description = "Mengandung antimon trioksida (yang dianggap sebagai karsinogen) yang mampu menyebabkan kanker mampu menyebabkan kanke mampu menyebabkan kanker ")
             ButtonScanSell(
                 modifier = modifier
                     .fillMaxWidth()

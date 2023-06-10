@@ -130,6 +130,7 @@ fun EditProfileScreen(
             OutLineTextFieldSample()
             Spacer(modifier = Modifier.height(30.dp))
             ButtonSave()
+            Spacer(modifier = Modifier.height(30.dp))
         }
 
     }

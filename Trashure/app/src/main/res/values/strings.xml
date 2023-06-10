@@ -37,4 +37,6 @@
     <string name="gallery_choice_dialog">Galeri</string>
     <string name="title_dialog">Ambil Gambar</string>
     <string name="close">Tutup</string>
+    <string name="choose_market">Pilih toko yang ingin kamu beli</string>
+    <string name="umkm_market">UMKM Market</string>
 </resources>

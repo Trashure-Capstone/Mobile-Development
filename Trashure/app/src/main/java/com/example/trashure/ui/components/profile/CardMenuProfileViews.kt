@@ -30,6 +30,8 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CardMenuProfileViews (
+    navigateToEditProfile: () -> Unit,
+    navigateToChangePassword: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Card(
@@ -59,7 +61,7 @@ fun CardMenuProfileViews (
                 Row(
                     modifier = modifier
                         .padding(end = 72.dp)
-                        .clickable {  }
+                        .clickable { navigateToEditProfile()}
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.edit_profile),
@@ -103,6 +105,7 @@ fun CardMenuProfileViews (
                 Row(
                     modifier = modifier
                         .padding(end = 48.dp)
+                        .clickable{navigateToChangePassword()}
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.keyfill),
@@ -172,7 +175,7 @@ fun CardMenuProfileViews (
 @Composable
 fun CardMenuProfilePreviews(){
     TrashureTheme {
-        CardMenuProfileViews()
+//        CardMenuProfileViews()
     }
 }
 
