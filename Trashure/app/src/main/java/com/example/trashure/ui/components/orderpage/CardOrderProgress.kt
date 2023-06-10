@@ -1,9 +1,11 @@
 package com.example.trashure.ui.components.orderpage
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -12,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -27,8 +30,10 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CardOrderProgress(
-    title : String,
+    id : String,
     description: String,
+    time : String,
+    date : String,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -56,7 +61,7 @@ fun CardOrderProgress(
                     .weight(1.0f)
             ) {
                 Text(
-                    text = "Sampah $title",
+                    text = id,
                     maxLines = 1,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -67,6 +72,36 @@ fun CardOrderProgress(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium
                 )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = modifier
+                        .background(
+                            color = Color(0XFFCCEFD9),
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                        .width(140.dp)
+                        .height(22.dp)
+                ) {
+                    Text(
+                        text = time,
+                        maxLines = 10,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        text = "|",
+                        maxLines = 10,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        text = date,
+                        maxLines = 10,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
         }
     }
@@ -78,8 +113,10 @@ fun CardOrderProgress(
 fun CardOrderPreview() {
     TrashureTheme {
         CardOrderProgress(
-            "Plastik",
-            "Pesanan akan di ambil oleh kurir, mohon menunggu  mohon menung  mohon menung  mohon menung"
+            "ID121212131",
+            "Pesanan akan di ambil oleh kurir, mohon menunggu  ",
+            "17.40",
+            "26 May 2023"
         )
     }
 }
