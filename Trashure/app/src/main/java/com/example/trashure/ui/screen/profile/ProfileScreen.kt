@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trashure.R
-import com.example.trashure.ui.components.profile.CardMenuProfileViews
-import com.example.trashure.ui.components.profile.CardProfileViews
+import com.example.trashure.ui.components.profilepage.CardMenuProfileViews
+import com.example.trashure.ui.components.profilepage.CardProfileViews
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.ui.theme.TrashureTheme

@@ -99,7 +99,6 @@ fun LoginScreenContent(
                 )
             ),
     ) {
-        
         Column{
             Image(
                 painter = painterResource(id = R.drawable.image_login),
