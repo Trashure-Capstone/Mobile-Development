@@ -193,7 +193,7 @@ fun DialogOrderFinish(
                         modifier = modifier
                             .width(82.dp)
                             .height(30.dp)
-                            .clickable{ },
+                            .clickable{ onCancelClicked()},
                         shape = RoundedCornerShape(20.dp),
                         backgroundColor = Color(0xFFF47078),
                     ) {
