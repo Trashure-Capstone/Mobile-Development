@@ -1,5 +1,6 @@
 package com.example.trashure.ui.screen.sell
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,20 +10,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,17 +41,31 @@ import com.example.trashure.ui.components.sellpage.CategoryItem
 import com.example.trashure.ui.components.sellpage.CategoryPhoto
 import com.example.trashure.ui.components.sellpage.CategorySection
 import com.example.trashure.ui.components.sellpage.CategoryWeight
+import com.example.trashure.ui.components.sellpage.ModalBottomSheet
 import com.example.trashure.ui.screen.scan.ButtonScanSell
 import com.example.trashure.ui.screen.scan.ImageScanViews
 import com.example.trashure.ui.screen.scan.LogoType
 import com.example.trashure.ui.theme.PrimaryColor
 import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.ui.theme.TrashureTheme
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SellTrashScreen(
     modifier: Modifier = Modifier
 ) {
+    val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val scope = rememberCoroutineScope()
+    ModalBottomSheetLayout(
+        sheetContent = {
+            ModalBottomSheet()
+        },
+        sheetState = modalBottomSheetState,
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetBackgroundColor = Color.White,
+        // scrimColor = Color.Red,  // Color for the fade background when you open/close the drawer
+    ){
     Scaffold (
         topBar = {
             SellTrashTopBar(title = stringResource(R.string.sell_page))
@@ -65,6 +87,12 @@ fun SellTrashScreen(
                     CategoryItem(
                         icon = R.drawable.trashsell,
                         title = "Pilih jenis sampah",
+                        modifier = modifier
+                            .clickable {
+                                scope.launch {
+                                    modalBottomSheetState.show()
+                                }
+                            }
                     )
                 }
             )
@@ -118,6 +146,8 @@ fun SellTrashScreen(
 
         }
     }
+    }
+
 }
 
 
