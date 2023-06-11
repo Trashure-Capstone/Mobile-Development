@@ -49,6 +49,7 @@ import com.example.trashure.ui.screen.profile.editprofile.EditProfileScreen
 import com.example.trashure.ui.screen.profile.ProfileScreen
 import com.example.trashure.ui.screen.register.RegisterScreen
 import com.example.trashure.ui.screen.scan.ScanScreen
+import com.example.trashure.ui.screen.sell.SellTrashScreen
 import com.example.trashure.ui.screen.splash.SplashScreen1
 import com.example.trashure.ui.screen.splash.SplashScreen2
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
@@ -71,7 +72,8 @@ fun TrashureApp(
             Screen.ChangePassword.route,
             Screen.TrashureMarket.route,
             Screen.MarketPage.route,
-            Screen.UMKMMarket.route
+            Screen.UMKMMarket.route,
+            Screen.SellPage.route
         )
     Scaffold(
         bottomBar = {
@@ -140,6 +142,9 @@ fun TrashureApp(
                 HomeScreen(
                     navigateToMarketPlace = {
                         navController.navigate(Screen.MarketPage.route)
+                    },
+                    navigateToSellPage = {
+                        navController.navigate(Screen.SellPage.route)
                     }
                 )
             }
@@ -188,6 +193,9 @@ fun TrashureApp(
                         navController.navigateUp()
                     }
                 )
+            }
+            composable(Screen.SellPage.route){
+                SellTrashScreen()
             }
         }
     }

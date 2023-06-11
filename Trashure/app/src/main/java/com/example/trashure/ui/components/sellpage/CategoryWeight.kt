@@ -22,7 +22,7 @@ fun CategoryWeight(
 ) {
     Card(
         modifier = modifier
-            .width(300.dp)
+            .width(310.dp)
             .height(40.dp),
         shape = RoundedCornerShape(10.dp),
     ) {

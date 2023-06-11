@@ -28,6 +28,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="register_desc">Create your account!</string>
     <string name="scan_page">Identifikasi Jenis Sampah</string>
+    <string name="sell_page">Jual Sampah</string>
     <string name="logo_title">Logo Jenis Plastik</string>
     <string name="scan_trash">Scan Sampah</string>
     <string name="sell_trash">Jual Sampah</string>

@@ -48,14 +48,16 @@ import com.example.trashure.ui.theme.TrashureTheme
 @Composable
 fun HomeScreen(
     navigateToMarketPlace : () -> Unit,
+    navigateToSellPage : () -> Unit,
     modifier: Modifier = Modifier
 ){
-    HomeScreenContent(navigateToMarketPlace,modifier)
+    HomeScreenContent(navigateToMarketPlace,navigateToSellPage,modifier)
 }
 
 @Composable
 fun HomeScreenContent(
     navigateToMarketPlace : () -> Unit,
+    navigateToSellPage: () -> Unit,
     modifier: Modifier = Modifier,
 ){
     Box(
@@ -88,9 +90,9 @@ fun HomeScreenContent(
             modifier = modifier
                 .padding(top = 10.dp)
         ) {
-            MenuCategory({},dummyMenu)
+            MenuCategory({}, navigateToSellPage,dummyMenu)
         }
-        MenuCategory(navigateToMarketPlace, dummyMenuToko)
+        MenuCategory(navigateToMarketPlace,{}, dummyMenuToko)
         HomeSection(
             title = stringResource(R.string.news_title),
             content = { NewsCategory(dummyNews)},
@@ -110,7 +112,7 @@ fun HomeScreenContent(
 @Composable
 fun HomeScreenPreview() {
     TrashureTheme {
-        HomeScreenContent({})
+        HomeScreenContent({}, {})
     }
 }
 
@@ -164,6 +166,7 @@ fun TextPreview() {
 @Composable
 fun MenuCategory(
     navigateToMarketPlace : () -> Unit,
+    navigateToSellPage: () -> Unit,
     listMenu: List<Menu>,
     modifier: Modifier = Modifier,
 ){
@@ -186,7 +189,7 @@ fun MenuCategory(
                 )
             }else{
                 CardMenuViews(
-                    navigate = { },
+                    navigate = navigateToSellPage,
                     icon = data.icon,
                     title = data.title,
                     description = data.description,
