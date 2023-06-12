@@ -31,7 +31,7 @@ import com.example.trashure.R
 import com.example.trashure.model.ItemsMarket
 import com.example.trashure.model.MenuSections
 import com.example.trashure.model.dummyItemsMarket
-import com.example.trashure.ui.components.MenuItemsView
+import com.example.trashure.ui.components.marketplace.MenuItemsView
 import com.example.trashure.ui.components.MenuSectionsView
 import com.example.trashure.ui.components.marketplace.CardMenuMarket
 import com.example.trashure.ui.theme.TrashureTheme
