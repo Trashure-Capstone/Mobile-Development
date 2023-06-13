@@ -1,6 +1,5 @@
 package com.example.trashure.ui.components.sellpage
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,14 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trashure.ui.theme.TrashureTheme
-import okhttp3.internal.wait
 
 @Composable
 fun ProductCounter(
-    orderId: Long,
     orderCount: Int,
-    onProductIncreased: (Long) -> Unit,
-    onProductDecreased: (Long) -> Unit,
+    onProductIncreased: () -> Unit,
+    onProductDecreased: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -51,7 +48,7 @@ fun ProductCounter(
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        onProductDecreased(orderId)
+                        onProductDecreased()
                     }
             )
         }
@@ -78,7 +75,7 @@ fun ProductCounter(
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        onProductIncreased(orderId)
+                        onProductIncreased()
                     }
             )
         }
@@ -90,7 +87,6 @@ fun ProductCounter(
 fun ProductCounterPreview() {
     TrashureTheme {
         ProductCounter(
-            orderId = 1,
             orderCount = 0,
             onProductIncreased = { },
             onProductDecreased = { }

@@ -15,9 +15,8 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CategoryWeight(
-    rewardId: Long,
     count: Int,
-    onProductCountChanged: (id: Long, count: Int) -> Unit,
+    onProductCountChanged: (count: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -50,12 +49,10 @@ fun CategoryWeight(
             }
 
             ProductCounter(
-                orderId = rewardId,
                 orderCount = count,
-                onProductIncreased = { onProductCountChanged(rewardId, count + 1) },
-                onProductDecreased = { onProductCountChanged(rewardId, count - 1) },
+                onProductIncreased = { onProductCountChanged(count + 1) },
+                onProductDecreased = { if(count>0) onProductCountChanged(count - 1) },
                 modifier = Modifier.padding()
-
             )
         }
     }
@@ -65,6 +62,6 @@ fun CategoryWeight(
 @Preview(showBackground = true)
 fun CategoryWeighPreview() {
     TrashureTheme {
-        CategoryWeight(rewardId = 2, count = 0, onProductCountChanged = { rewardId, count ->} )
+        CategoryWeight(count = 0, onProductCountChanged = {} )
     }
 }

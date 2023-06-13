@@ -3,7 +3,6 @@ package com.example.trashure.ui.screen.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -69,7 +68,6 @@ fun HomeScreenContent(
                 .fillMaxWidth()
                 .offset(y = (-30).dp)
         )
-        Spacer(modifier = Modifier.height(10.dp))
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -84,7 +82,7 @@ fun HomeScreenContent(
                 color = Green_1
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -92,7 +90,7 @@ fun HomeScreenContent(
                 .padding(horizontal = 20.dp)
         ){
             CardMenuViews(
-                navigate = navigateToSellPage,
+                navigate = navigateToMarketPlace,
                 icon = R.drawable.shopping,
                 title = "Toko Sampah",
                 description = "Dapatkan sampah untuk keperluan bisnis",

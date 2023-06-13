@@ -1,6 +1,7 @@
 package com.example.trashure.ui.components.sellpage
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,11 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trashure.R
+import com.example.trashure.model.TrashTypeList
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun ModalBottomSheet(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -65,153 +68,51 @@ fun ModalBottomSheet(
                 )
             }
         }
-
+    
+    
         Divider(color = Color(0xFFD8D8D8),thickness = 1.dp)
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 6.dp, bottom = 6.dp)
-        ) {
-            Card(
+        
+        for (item in TrashTypeList){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
-                    .size(50.dp),
-                shape = RoundedCornerShape(100.dp),
-                backgroundColor = Color(0xFFF47078)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(top = 6.dp, bottom = 6.dp)
+                    .clickable {
+                        onClick(item.id)
+                    },
             ) {
-                Image(
-                    painter = painterResource(R.drawable.bottle),
-                    contentDescription = null,
+                Card(
+                    modifier = modifier
+                        .size(50.dp),
+                    shape = RoundedCornerShape(100.dp),
+                    backgroundColor = Color(0xFFF47078)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.bottle),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(top = 2.dp)
+                            .size(20.dp)
+                    )
+                }
+                Column(
                     modifier = Modifier
-                        .padding(top = 2.dp)
-                        .size(20.dp)
-                )
+                        .padding(start = 20.dp)
+                ) {
+                    Text(
+                        text = item.name,
+                        maxLines = 1,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             }
-            Column(
-                modifier = Modifier
-                    .padding(start = 20.dp)
-            ) {
-                Text(
-                    text = "Plastik",
-                    maxLines = 1,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+    
+            Divider(color = Color(0xFFD8D8D8),thickness = 1.dp)
+    
         }
-
-        Divider(color = Color(0xFFD8D8D8),thickness = 1.dp)
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 6.dp, bottom = 6.dp)
-        ) {
-            Card(
-                modifier = modifier
-                    .size(50.dp),
-                shape = RoundedCornerShape(100.dp),
-                backgroundColor = Color(0xFFF47078)
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bottle),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 2.dp)
-                        .size(20.dp)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(start = 20.dp)
-            ) {
-                Text(
-                    text = "Plastik",
-                    maxLines = 1,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-
-        Divider(color = Color(0xFFD8D8D8),thickness = 1.dp)
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 6.dp, bottom = 6.dp)
-        ) {
-            Card(
-                modifier = modifier
-                    .size(50.dp),
-                shape = RoundedCornerShape(100.dp),
-                backgroundColor = Color(0xFFF47078)
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bottle),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 2.dp)
-                        .size(20.dp)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(start = 20.dp)
-            ) {
-                Text(
-                    text = "Plastik",
-                    maxLines = 1,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-
-        Divider(color = Color(0xFFD8D8D8),thickness = 1.dp)
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 6.dp, bottom = 6.dp)
-        ) {
-            Card(
-                modifier = modifier
-                    .size(50.dp),
-                shape = RoundedCornerShape(100.dp),
-                backgroundColor = Color(0xFFF47078)
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bottle),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 2.dp)
-                        .size(20.dp)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(start = 20.dp)
-            ) {
-                Text(
-                    text = "Plastik",
-                    maxLines = 1,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-
-        Divider(color = Color(0xFFD8D8D8),thickness = 1.dp)
-
     }
 }
 
@@ -219,6 +120,6 @@ fun ModalBottomSheet(
 @Composable
 fun ModalBottomSheetPreview(){
     TrashureTheme {
-        ModalBottomSheet()
+        ModalBottomSheet(onClick = {})
     }
 }

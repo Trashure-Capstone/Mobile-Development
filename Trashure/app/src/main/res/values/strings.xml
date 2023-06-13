@@ -40,4 +40,8 @@
     <string name="close">Tutup</string>
     <string name="choose_market">Pilih toko yang ingin kamu beli</string>
     <string name="umkm_market">UMKM Market</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="pick_date">Pilih tanggal penjemputan</string>
+    <string name="pick_time">Pilih jam penjemputan</string>
 </resources>
