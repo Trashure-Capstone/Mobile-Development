@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trashure.model.Message
 import com.example.trashure.model.dummyMessage
-import com.example.trashure.ui.components.inbox.CardInboxViews
+import com.example.trashure.ui.components.inboxpage.CardInboxViews
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable

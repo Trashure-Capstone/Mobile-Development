@@ -15,4 +15,5 @@ sealed class Screen(val route: String) {
     object MarketPage : Screen("market_page")
     object UMKMMarket : Screen("umkm_market")
     object TrashureMarket : Screen("trashure_market")
+    object SellPage : Screen("sell_page")
 }

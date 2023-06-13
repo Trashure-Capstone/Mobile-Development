@@ -1,4 +1,4 @@
-package com.example.trashure.ui.components.profile
+package com.example.trashure.ui.components.profilepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

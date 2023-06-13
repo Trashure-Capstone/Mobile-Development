@@ -28,6 +28,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="register_desc">Create your account!</string>
     <string name="scan_page">Identifikasi Jenis Sampah</string>
+    <string name="sell_page">Jual Sampah</string>
     <string name="logo_title">Logo Jenis Plastik</string>
     <string name="scan_trash">Scan Sampah</string>
     <string name="sell_trash">Jual Sampah</string>
@@ -39,4 +40,8 @@
     <string name="close">Tutup</string>
     <string name="choose_market">Pilih toko yang ingin kamu beli</string>
     <string name="umkm_market">UMKM Market</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="pick_date">Pilih tanggal penjemputan</string>
+    <string name="pick_time">Pilih jam penjemputan</string>
 </resources>

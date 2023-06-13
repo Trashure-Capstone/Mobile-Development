@@ -2,12 +2,7 @@ package com.example.trashure.ui.components.homepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -37,7 +32,7 @@ fun CardMenuViews(
 ) {
     Card(
         modifier = modifier
-            .width(340.dp)
+            .fillMaxWidth()
             .height(60.dp)
             .clickable { navigate() },
         shape = RoundedCornerShape(10.dp),

@@ -64,7 +64,7 @@ class LoginViewModel(
                 }
         }
     }
-    
+
     fun onEvent(event: LoginUIEvent) {
         when (event) {
             is LoginUIEvent.EmailChanged -> {

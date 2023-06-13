@@ -2,20 +2,11 @@ package com.example.trashure.ui.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,67 +21,83 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.unit.sp
-import com.example.trashure.model.ActivityNews
-import com.example.trashure.model.Menu
-import com.example.trashure.model.News
-import com.example.trashure.model.dummyActivity
-import com.example.trashure.model.dummyMenu
-import com.example.trashure.model.dummyMenuToko
-import com.example.trashure.model.dummyNews
-import com.example.trashure.ui.components.homepage.CardActivityViews
-import com.example.trashure.ui.components.homepage.CardCategoryViews
-import com.example.trashure.ui.components.homepage.CardMenuViews
-import com.example.trashure.ui.components.homepage.CardNewsViews
-import com.example.trashure.ui.components.homepage.HomeSection
+import com.example.trashure.model.*
+import com.example.trashure.ui.components.homepage.*
+import com.example.trashure.ui.theme.Blue_1
+import com.example.trashure.ui.theme.Green_1
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun HomeScreen(
     navigateToMarketPlace : () -> Unit,
+    navigateToSellPage : () -> Unit,
     modifier: Modifier = Modifier
 ){
-    HomeScreenContent(navigateToMarketPlace,modifier)
+    HomeScreenContent(navigateToMarketPlace,navigateToSellPage,modifier)
 }
 
 @Composable
 fun HomeScreenContent(
     navigateToMarketPlace : () -> Unit,
+    navigateToSellPage: () -> Unit,
     modifier: Modifier = Modifier,
 ){
-    Box(
-        modifier = Modifier
-            .height(192.dp)
-            .fillMaxWidth()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        PrimaryBackgroundColor, Color(0xFFCCEFD9)
-                    )
-                )
-            )
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ){
-        Spacer(modifier = Modifier.height(80.dp))
-        Box {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .height(192.dp)
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            PrimaryBackgroundColor, Color(0xFFCCEFD9)
+                        )
+                    )
+                )
+        ){
             BannerHome("Hilalhmdy")
-
         }
-        Spacer(modifier = Modifier.height(30.dp))
         Category(
             modifier = modifier
                 .fillMaxWidth()
+                .offset(y = (-30).dp)
         )
-        Column(
-            modifier = modifier
-                .padding(top = 10.dp)
-        ) {
-            MenuCategory({},dummyMenu)
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ){
+            CardMenuViews(
+                navigate = navigateToSellPage,
+                icon = R.drawable.recycling,
+                title = "Jual Sampah",
+                description = "Bersihkan lingkunganmu sekarang",
+                color = Green_1
+            )
         }
-        MenuCategory(navigateToMarketPlace, dummyMenuToko)
+        Spacer(modifier = Modifier.height(15.dp))
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ){
+            CardMenuViews(
+                navigate = navigateToMarketPlace,
+                icon = R.drawable.shopping,
+                title = "Toko Sampah",
+                description = "Dapatkan sampah untuk keperluan bisnis",
+                color = Blue_1
+            )
+        }
+        
         HomeSection(
             title = stringResource(R.string.news_title),
             content = { NewsCategory(dummyNews)},
@@ -103,6 +110,7 @@ fun HomeScreenContent(
             modifier = modifier
                 .padding(top = 10.dp)
         )
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
@@ -110,7 +118,7 @@ fun HomeScreenContent(
 @Composable
 fun HomeScreenPreview() {
     TrashureTheme {
-        HomeScreenContent({})
+        HomeScreenContent({}, {})
     }
 }
 
@@ -158,42 +166,6 @@ fun BannerHome(
 fun TextPreview() {
     TrashureTheme {
         BannerHome("Hilalhmdy")
-    }
-}
-
-@Composable
-fun MenuCategory(
-    navigateToMarketPlace : () -> Unit,
-    listMenu: List<Menu>,
-    modifier: Modifier = Modifier,
-){
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp)
-    ) {
-        items(listMenu){data ->
-            if ( data.title == "Toko Sampah") {
-                CardMenuViews(
-                    navigate = navigateToMarketPlace,
-                    icon = data.icon,
-                    title = data.title,
-                    description = data.description,
-                    color = data.color
-                )
-            }else{
-                CardMenuViews(
-                    navigate = { },
-                    icon = data.icon,
-                    title = data.title,
-                    description = data.description,
-                    color = data.color
-                )
-            }
-        }
     }
 }
 

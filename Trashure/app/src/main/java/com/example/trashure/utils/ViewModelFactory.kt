@@ -6,6 +6,7 @@ import com.example.trashure.ui.screen.login.LoginViewModel
 import com.example.trashure.data.repository.TrashureRepository
 import com.example.trashure.ui.screen.register.RegisterViewModel
 import com.example.trashure.ui.screen.scan.ScanViewModel
+import com.example.trashure.ui.screen.sell.SellTrashViewModel
 
 class ViewModelFactory(private val repository: TrashureRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -18,6 +19,8 @@ class ViewModelFactory(private val repository: TrashureRepository) :
             return RegisterViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(ScanViewModel::class.java)){
             return ScanViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(SellTrashViewModel::class.java)){
+            return SellTrashViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

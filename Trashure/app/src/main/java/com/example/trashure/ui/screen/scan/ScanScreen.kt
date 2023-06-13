@@ -31,6 +31,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material3.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -273,7 +274,7 @@ fun MyTopBar(
         navigationIcon = {
             IconButton(onClick = {}) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.Default.Camera,
                     contentDescription = "Menu",
                     tint = Color(0xFF1A395A)
                 )

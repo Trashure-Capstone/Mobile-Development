@@ -1,4 +1,4 @@
-package com.example.trashure.ui.components
+package com.example.trashure.ui.components.marketplace
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn

@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import com.example.trashure.R
 import com.example.trashure.ui.theme.TrashureTheme
 
-
 @Composable
 fun CardOrderProgress(
     id : String,

@@ -36,7 +36,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.trashure.di.Injection
 import com.example.trashure.model.menuSections
 import com.example.trashure.ui.screen.home.HomeScreen
 import com.example.trashure.ui.screen.inbox.InboxScreenContent
@@ -45,17 +44,16 @@ import com.example.trashure.ui.screen.marketplace.MarketPlaceScreen
 import com.example.trashure.ui.screen.marketplace.UMKMScreen
 import com.example.trashure.ui.screen.marketplace.UserMarketScreen
 import com.example.trashure.ui.screen.order.OrderScreen
-import com.example.trashure.ui.screen.profile.ChangePasswordScreen
-import com.example.trashure.ui.screen.profile.EditProfileScreen
+import com.example.trashure.ui.screen.profile.changepassword.ChangePasswordScreen
+import com.example.trashure.ui.screen.profile.editprofile.EditProfileScreen
 import com.example.trashure.ui.screen.profile.ProfileScreen
 import com.example.trashure.ui.screen.register.RegisterScreen
 import com.example.trashure.ui.screen.scan.ScanScreen
-import com.example.trashure.ui.screen.scan.ScanScreenContent
+import com.example.trashure.ui.screen.sell.SellTrashScreen
 import com.example.trashure.ui.screen.splash.SplashScreen1
 import com.example.trashure.ui.screen.splash.SplashScreen2
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.TrashureTheme
-import com.example.trashure.utils.ViewModelFactory
 
 @Composable
 fun TrashureApp(
@@ -74,9 +72,9 @@ fun TrashureApp(
             Screen.ChangePassword.route,
             Screen.TrashureMarket.route,
             Screen.MarketPage.route,
-            Screen.UMKMMarket.route
+            Screen.UMKMMarket.route,
+            Screen.SellPage.route
         )
-    
     Scaffold(
         bottomBar = {
             if(!(screenWithoutBottomBar).contains(currentRoute)){
@@ -144,6 +142,9 @@ fun TrashureApp(
                 HomeScreen(
                     navigateToMarketPlace = {
                         navController.navigate(Screen.MarketPage.route)
+                    },
+                    navigateToSellPage = {
+                        navController.navigate(Screen.SellPage.route)
                     }
                 )
             }
@@ -192,6 +193,9 @@ fun TrashureApp(
                         navController.navigateUp()
                     }
                 )
+            }
+            composable(Screen.SellPage.route){
+                SellTrashScreen()
             }
         }
     }

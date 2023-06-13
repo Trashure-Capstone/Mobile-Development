@@ -37,12 +37,25 @@ fun CardOrderFinish(
     status : String,
     modifier: Modifier = Modifier
 ) {
+    val showDialog =  remember { mutableStateOf(false) }
+
+    if(showDialog.value)
+        DialogOrderFinish(
+            id = "ID11212ASAA",
+            time = "17.50",
+            date = "26 May 2023",
+            type = "Plastik",
+            coin = "300",
+            earn = "2.400",
+            status = "Selesai",
+            onCancelClicked = { showDialog.value = false })
+
     Card(
         modifier = modifier
             .width(340.dp)
             .wrapContentHeight()
-            .clickable{
-
+            .clickable {
+                       showDialog.value = true
             },
         shape = RoundedCornerShape(10.dp)
     ){
@@ -61,8 +74,8 @@ fun CardOrderFinish(
             Column(
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier
-                .padding(start = 11.dp)
-                .weight(1.0f)
+                    .padding(start = 11.dp)
+                    .weight(1.0f)
             ) {
                 Text(
                     text = id,
