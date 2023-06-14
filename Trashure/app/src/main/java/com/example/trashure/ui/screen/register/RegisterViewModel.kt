@@ -1,5 +1,6 @@
 package com.example.trashure.ui.screen.register
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -75,25 +76,18 @@ class RegisterViewModel(
             
             is RegisterUIEvent.RegisterButtonClicked -> {
                 register()
-                validateRegisterUIDataWithRules()
             }
         }
+        validateRegisterUIDataWithRules()
     }
     
     private fun validateRegisterUIDataWithRules() {
-        val nameError = registerUIState.value.nameError && registerUIState.value.name.isEmpty()
-        val emailError = registerUIState.value.emailError && registerUIState.value.email.isEmpty()
-        val passwordError = registerUIState.value.passwordError && registerUIState.value.password.isEmpty()
-        val confirmPasswordError = registerUIState.value.confirmPasswordError && registerUIState.value.confirmPassword.isEmpty()
+        val nameValid = !registerUIState.value.nameError && registerUIState.value.name.isNotEmpty()
+        val emailValid = !registerUIState.value.emailError && registerUIState.value.email.isNotEmpty()
+        val passwordValid = !registerUIState.value.passwordError && registerUIState.value.password.isNotEmpty()
+        val confirmPasswordValid = !registerUIState.value.confirmPasswordError && !registerUIState.value.confirmPassword.isEmpty()
         
-        registerUIState.value = registerUIState.value.copy(
-            nameError = nameError,
-            emailError = emailError,
-            passwordError = passwordError,
-            confirmPasswordError =  confirmPasswordError
-        )
-        
-        isAllValidationsPassed.value = !nameError && !emailError && !passwordError && !confirmPasswordError
+        isAllValidationsPassed.value = nameValid && emailValid && passwordValid && confirmPasswordValid
     }
     
 }

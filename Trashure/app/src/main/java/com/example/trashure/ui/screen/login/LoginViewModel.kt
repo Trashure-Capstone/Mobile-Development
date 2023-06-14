@@ -85,22 +85,17 @@ class LoginViewModel(
             
             is LoginUIEvent.LoginButtonClicked -> {
                 login()
-                validateLoginUIDataWithRules()
             }
         }
+        validateLoginUIDataWithRules()
     }
     
     private fun validateLoginUIDataWithRules() {
     
-        val emailError = loginUIState.value.emailError && loginUIState.value.email.isEmpty()
-        val passwordError = loginUIState.value.passwordError && loginUIState.value.password.isEmpty()
+        val emailValid = !loginUIState.value.emailError && loginUIState.value.email.isNotEmpty()
+        val passwordValid = !loginUIState.value.passwordError && loginUIState.value.password.isNotEmpty()
         
-        loginUIState.value = loginUIState.value.copy(
-            emailError = emailError,
-            passwordError = passwordError
-        )
-        
-        isAllValidationsPassed.value = !emailError && !passwordError
+        isAllValidationsPassed.value = emailValid && passwordValid
         
     }
     
