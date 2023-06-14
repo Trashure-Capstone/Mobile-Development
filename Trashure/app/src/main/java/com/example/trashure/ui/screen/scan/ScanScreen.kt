@@ -6,34 +6,14 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.*
+import coil.compose.AsyncImage
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.*
 import androidx.compose.material3.Card
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,13 +39,14 @@ import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.ui.theme.TrashureTheme
 import com.example.trashure.utils.ComposeFileProvider
 import com.example.trashure.utils.ViewModelFactory
+import com.example.trashure.utils.uriToFile
 import com.google.accompanist.permissions.*
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ScanScreen(
     navigateBack: () -> Unit,
-    modifier: Modifier = Modifier,
+    navigateToSellTrash: () -> Unit,
     viewModel: ScanViewModel = viewModel(
         factory = ViewModelFactory(
             Injection.provideRepository(context = LocalContext.current)
@@ -73,7 +54,7 @@ fun ScanScreen(
     )
 ) {
     val context = LocalContext.current
-//    var getFile:File? by remember{ mutableStateOf(null)}
+    
     var isCameraPermissionGranted: Boolean by remember {
         mutableStateOf(false)
     }
@@ -154,12 +135,8 @@ fun ScanScreen(
         var hasImage by remember {
             mutableStateOf(false)
         }
-        var imageUri by remember {
+        var imageUri by rememberSaveable {
             mutableStateOf<Uri?>(null)
-        }
-        
-        if(hasImage){
-            Log.d("ScanScreen","HasImage")
         }
     
         val imagePicker = rememberLauncherForActivityResult(
@@ -167,7 +144,7 @@ fun ScanScreen(
             onResult = { uri ->
                 hasImage = uri != null
                 imageUri = uri
-                Log.d("ScanScreen",imageUri.toString())
+                viewModel.scan(imageUri?.let { uriToFile(selectedImg = it,context = context) })
             }
         )
     
@@ -175,10 +152,20 @@ fun ScanScreen(
             contract = ActivityResultContracts.TakePicture(),
             onResult = { success ->
                 hasImage = success
+                viewModel.scan(imageUri?.let { uriToFile(selectedImg = it,context = context) })
             }
         )
     
         var isLoading by remember{ mutableStateOf(false) }
+        
+        if(isLoading){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                CircularProgressIndicator(
+                    color = PrimaryColor
+                )
+            }
+        }
+        
         viewModel.scanState.collectAsState(initial = UiState.Empty).value.let{ uiState ->
             
             when(uiState){
@@ -190,12 +177,20 @@ fun ScanScreen(
                 is UiState.Success -> {
                     Log.d("ScanScreen", "UiState.Success")
                     isLoading = false
+                    ScanScreenContent(
+                        navigateBack = navigateBack,
+                        openDialog = {
+                            viewModel.rescan()
+                        },
+                        navigateToSellTrash = navigateToSellTrash,
+                        imageUri = imageUri
+                    )
                     //tampilin screen
                 }
                 is UiState.Error -> {
                     Log.d("ScanScreen", "UiState.Error")
                     isLoading = false
-                    //navigateback
+                    navigateBack()
                     Log.d("collectStateTestError", uiState.toString())
                 }
                 else -> {
@@ -211,22 +206,33 @@ fun ScanScreen(
                         }
                     )
                 }
+                
 
             }
         }
+        
     }else{
         //Do Nothing
     }
+    
+    
     
 }
     
 @Composable
 fun ScanScreenContent (
+    navigateBack: () -> Unit,
+    openDialog : ()->Unit,
+    navigateToSellTrash : ()->Unit,
+    imageUri: Uri?,
     modifier: Modifier = Modifier
 ){
     Scaffold (
         topBar = {
-            MyTopBar(title = stringResource(R.string.scan_page))
+            MyTopBar(
+                navigateBack = navigateBack,
+                title = stringResource(R.string.scan_page)
+            )
         },
         modifier = modifier
     ){ innerPadding ->
@@ -239,7 +245,22 @@ fun ScanScreenContent (
                 .fillMaxSize()
         ) {
             Spacer(modifier = Modifier.height(30.dp))
-            ImageScanViews(R.drawable.avatarss)
+            if(imageUri == null){
+                ImageScanViews(R.drawable.baseline_image_24)
+            }else{
+                AsyncImage(
+                    model = imageUri,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(220.dp)
+                        .border(
+                            border = BorderStroke(2.dp, PrimaryColor),
+                            shape = RoundedCornerShape(18.dp)
+                        ),
+                    alignment = Alignment.Center
+                )
+            }
+            
             LogoType(R.drawable.hdpe)
             Spacer(modifier = Modifier.height(4.dp))
             CardInformationViews(title = "Tipe Plastik", description = "PETE")
@@ -247,6 +268,8 @@ fun ScanScreenContent (
             CardInformationViews(title = "Manfaat", description = "memiliki kemampuan untuk mencegah oksigen masuk dan merusak produk didalamnya.")
             CardInformationViews(title = "Kekurangan", description = "Mengandung antimon trioksida (yang dianggap sebagai karsinogen) yang mampu menyebabkan kanker mampu menyebabkan kanke mampu menyebabkan kanker ")
             ButtonScanSell(
+                navigateToSellTrash = navigateToSellTrash,
+                openDialog = openDialog,
                 modifier = modifier
                     .fillMaxWidth()
             )
@@ -260,30 +283,8 @@ fun ScanScreenContent (
 @Composable
 fun ScanScreenPreview(){
     TrashureTheme {
-        ScanScreenContent()
+        ScanScreenContent({},{},{},null)
     }
-}
-
-
-@Composable
-fun MyTopBar(
-    title : String,
-    modifier : Modifier = Modifier,
-) {
-    TopAppBar(
-        navigationIcon = {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Default.Camera,
-                    contentDescription = "Menu",
-                    tint = Color(0xFF1A395A)
-                )
-            }
-        },
-        title = {
-            Text(text = title, color = Color(0xFF1A395A))
-        }
-    )
 }
 
 @Preview
@@ -291,7 +292,7 @@ fun MyTopBar(
 fun MyTopBarPreview(){
     TrashureTheme {
         MyTopBar(
-            "Identifikasi Jenis Sampah"
+            {},"Identifikasi Jenis Sampah"
         )
     }
 }
@@ -361,11 +362,14 @@ fun LogoTypePreview(){
 
 @Composable
 fun ButtonChoose(
+    onClick: ()->Unit,
     buttonName: String,
     modifier: Modifier = Modifier
 ){
     Button(
-        onClick = {},
+        onClick = {
+            onClick()
+        },
         shape = Shapes_Larger.small,
         colors = ButtonDefaults.buttonColors(PrimaryColor),
         modifier = modifier
@@ -377,14 +381,16 @@ fun ButtonChoose(
 
 @Composable
 fun ButtonScanSell(
+    openDialog : ()->Unit,
+    navigateToSellTrash : ()->Unit,
     modifier: Modifier = Modifier
 ){
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = modifier
     ) {
-        ButtonChoose(buttonName = "Scan Sampah")
-        ButtonChoose(buttonName = "Jual SAMPAH")
+        ButtonChoose(buttonName = "Scan Sampah", onClick = openDialog)
+        ButtonChoose(buttonName = "Jual SAMPAH", onClick = navigateToSellTrash)
     }
 }
 
@@ -392,7 +398,7 @@ fun ButtonScanSell(
 @Composable
 fun ButtonChoosePreview(){
     TrashureTheme {
-        ButtonChoose(buttonName = stringResource(R.string.scan_trash))
+        ButtonChoose({},buttonName = stringResource(R.string.scan_trash))
     }
 }
 

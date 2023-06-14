@@ -209,6 +209,9 @@ fun TrashureApp(
             }
             composable(Screen.ScanPage.route){
                 ScanScreen(
+                    navigateToSellTrash = {
+                        navController.navigate(Screen.SellPage.route)
+                    },
                     navigateBack = {
                         navController.navigateUp()
                     }
