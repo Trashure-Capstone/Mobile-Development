@@ -1,5 +1,6 @@
 package com.example.trashure.ui.screen.sell
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,9 +46,7 @@ import com.example.trashure.ui.components.sellpage.ModalBottomSheet
 import com.example.trashure.ui.theme.*
 import com.example.trashure.utils.ViewModelFactory
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import com.vanpra.composematerialdialogs.datetime.time.TimePickerColors
 import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -57,9 +56,11 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 
+@SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SellTrashScreen(
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SellTrashViewModel = viewModel(
         factory = ViewModelFactory(
@@ -92,7 +93,10 @@ fun SellTrashScreen(
     ){
     Scaffold (
         topBar = {
-            SellTrashTopBar(title = stringResource(R.string.sell_page))
+            SellTrashTopBar(
+                title = stringResource(R.string.sell_page),
+                onClick = navigateBack
+            )
         },
         modifier = modifier
     ){ innerPadding ->
@@ -250,10 +254,13 @@ fun SellTrashScreen(
 @Composable
 fun SellTrashTopBar(
     title : String,
+    onClick: () -> Unit
 ) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                onClick()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Menu",
@@ -271,6 +278,6 @@ fun SellTrashTopBar(
 @Composable
 fun SellTrashPreview(){
     TrashureTheme {
-        SellTrashScreen()
+        SellTrashScreen({})
     }
 }

@@ -1,5 +1,6 @@
 package com.example.trashure.ui.screen.register
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,25 +48,29 @@ class RegisterViewModel(
         when (event) {
             is RegisterUIEvent.NameChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    name = event.name
+                    name = event.name,
+                    nameError = !Validator.validateName(event.name).status
                 )
             }
             
             is RegisterUIEvent.EmailChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    email = event.email
+                    email = event.email,
+                    emailError = !Validator.validateEmail(event.email).status
                 )
             }
             
             is RegisterUIEvent.PasswordChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    password = event.password
+                    password = event.password,
+                    passwordError = !Validator.validatePassword(event.password).status
                 )
             }
     
             is RegisterUIEvent.ConfirmPasswordChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    confirmPassword = event.confirmPassword
+                    confirmPassword = event.confirmPassword,
+                    confirmPasswordError = !Validator.validateConfirmPassword(registerUIState.value.password,event.confirmPassword).status
                 )
             }
             
@@ -77,34 +82,12 @@ class RegisterViewModel(
     }
     
     private fun validateRegisterUIDataWithRules() {
-        val nameResult = Validator.validateName(
-            name = registerUIState.value.name
-        )
+        val nameValid = !registerUIState.value.nameError && registerUIState.value.name.isNotEmpty()
+        val emailValid = !registerUIState.value.emailError && registerUIState.value.email.isNotEmpty()
+        val passwordValid = !registerUIState.value.passwordError && registerUIState.value.password.isNotEmpty()
+        val confirmPasswordValid = !registerUIState.value.confirmPasswordError && !registerUIState.value.confirmPassword.isEmpty()
         
-        val emailResult = Validator.validateEmail(
-            email = registerUIState.value.email
-        )
-        
-        val passwordResult = Validator.validatePassword(
-            password = registerUIState.value.password
-        )
-    
-        val confirmPasswordResult = Validator.validateConfirmPassword(
-            password = registerUIState.value.password,
-            confirmPassword = registerUIState.value.confirmPassword
-        )
-        
-        registerUIState.value = registerUIState.value.copy(
-            nameError = nameResult.status,
-            emailError = emailResult.status,
-            passwordError = passwordResult.status,
-            confirmPasswordError =  confirmPasswordResult.status
-        )
-        
-        isAllValidationsPassed.value =
-            nameResult.status && emailResult.status
-                    && passwordResult.status && confirmPasswordResult.status
-        
+        isAllValidationsPassed.value = nameValid && emailValid && passwordValid && confirmPasswordValid
     }
     
 }

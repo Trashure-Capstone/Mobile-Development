@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
 import com.example.trashure.data.repository.TrashureRepository
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.ui.common.UiState
@@ -15,7 +14,6 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val repository: TrashureRepository
     ) : ViewModel() {
-    
     
     //handling state for login response
     private val _loginState: MutableStateFlow<UiState<LoginResult>> =
@@ -45,6 +43,10 @@ class LoginViewModel(
         }
     }
     
+    fun logout(){
+        repository.logout()
+    }
+    
     private fun login(){
         Log.d("yyy","login")
         
@@ -69,13 +71,15 @@ class LoginViewModel(
         when (event) {
             is LoginUIEvent.EmailChanged -> {
                 loginUIState.value = loginUIState.value.copy(
-                    email = event.email
+                    email = event.email,
+                    emailError = !Validator.validateEmail(event.email).status
                 )
             }
             
             is LoginUIEvent.PasswordChanged -> {
                 loginUIState.value = loginUIState.value.copy(
-                    password = event.password
+                    password = event.password,
+                    passwordError = !Validator.validatePassword(event.password).status
                 )
             }
             
@@ -87,20 +91,11 @@ class LoginViewModel(
     }
     
     private fun validateLoginUIDataWithRules() {
-        val emailResult = Validator.validateEmail(
-            email = loginUIState.value.email
-        )
+    
+        val emailValid = !loginUIState.value.emailError && loginUIState.value.email.isNotEmpty()
+        val passwordValid = !loginUIState.value.passwordError && loginUIState.value.password.isNotEmpty()
         
-        val passwordResult = Validator.validatePassword(
-            password = loginUIState.value.password
-        )
-        
-        loginUIState.value = loginUIState.value.copy(
-            emailError = emailResult.status,
-            passwordError = passwordResult.status
-        )
-        
-        isAllValidationsPassed.value = emailResult.status && passwordResult.status
+        isAllValidationsPassed.value = emailValid && passwordValid
         
     }
     

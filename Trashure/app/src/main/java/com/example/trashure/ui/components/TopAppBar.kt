@@ -14,12 +14,16 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun MyTopBar(
-    title : String,
-    modifier : Modifier = Modifier,
+    navigateBack:()->Unit,
+    title : String
 ) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(
+                onClick = {
+                    navigateBack()
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Menu",
@@ -38,7 +42,7 @@ fun MyTopBar(
 fun MyTopBarPreview(){
     TrashureTheme {
         MyTopBar(
-            "Identifikasi Jenis Sampah"
+            {},"Identifikasi Jenis Sampah"
         )
     }
 }
