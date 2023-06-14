@@ -2,11 +2,14 @@ package com.example.trashure.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Movie
 import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.data.remote.response.RegisterResponse
 import com.example.trashure.data.remote.service.ApiService
 import com.example.trashure.model.Auth
+import com.example.trashure.model.News
+import com.example.trashure.model.dummyNews
 import com.example.trashure.ui.common.UiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +21,26 @@ import okhttp3.MultipartBody
 class TrashureRepository(private val context: Context, private val apiService: ApiService) {
     
     private val preferencesDatastore = TrashurePreferencesDatastore(context)
-    
+
+    private val newsList = mutableListOf<News>()
+
+    init {
+        if (newsList.isEmpty()) {
+            dummyNews.forEach {
+                newsList.add(it)
+            }
+        }
+    }
+
+    fun getNewsList(): Flow<List<News>> {
+        return flowOf(newsList)
+    }
+
+    fun getNewsById(id: Long): News {
+        return newsList.first {
+            it.id == id
+        }
+    }
     private fun setAuth(auth:Auth){
         CoroutineScope(Dispatchers.IO).launch{
             preferencesDatastore.setAuth(

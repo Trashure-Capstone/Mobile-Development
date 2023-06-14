@@ -25,7 +25,7 @@ import com.example.trashure.ui.theme.TrashureTheme
 @Composable
 fun CardNewsViews(
     image: Int,
-    description: String,
+    title: String,
     modifier: Modifier = Modifier,
 ) {
     Card (
@@ -45,7 +45,7 @@ fun CardNewsViews(
             )
             Column(modifier = Modifier.padding(6.dp)){
                 Text(
-                    text = description,
+                    text = title,
                     maxLines = 2,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Normal

@@ -2,6 +2,7 @@ package com.example.trashure.ui.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -16,31 +17,62 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trashure.R
 import androidx.compose.material.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.trashure.di.Injection
 import com.example.trashure.model.*
+import com.example.trashure.ui.common.UiState
 import com.example.trashure.ui.components.homepage.*
+import com.example.trashure.ui.screen.news.DetailNewsContent
 import com.example.trashure.ui.theme.Blue_1
 import com.example.trashure.ui.theme.Green_1
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.TrashureTheme
+import com.example.trashure.utils.ViewModelFactory
 
 @Composable
 fun HomeScreen(
     navigateToMarketPlace : () -> Unit,
     navigateToSellPage : () -> Unit,
-    modifier: Modifier = Modifier
+    navigateToDetail: (Long) -> Unit,
+    viewModel: HomeViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository(context = LocalContext.current))
+    )
 ){
-    HomeScreenContent(navigateToMarketPlace,navigateToSellPage,modifier)
+    viewModel.newsState.collectAsState(initial = UiState.Loading).value.let { uiState ->
+        when(uiState){
+            is UiState.Loading -> {
+                viewModel.getAllNews()
+            }
+            is UiState.Success -> {
+                HomeScreenContent(
+                    navigateToMarketPlace = navigateToMarketPlace,
+                    navigateToSellPage = navigateToSellPage,
+                    navigateToDetail = navigateToDetail
+                )
+            }
+            is UiState.Error -> {}
+            else -> {
+
+            }
+        }
+
+    }
+
 }
+
 
 @Composable
 fun HomeScreenContent(
     navigateToMarketPlace : () -> Unit,
     navigateToSellPage: () -> Unit,
+    navigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ){
     Column(
@@ -100,7 +132,7 @@ fun HomeScreenContent(
         
         HomeSection(
             title = stringResource(R.string.news_title),
-            content = { NewsCategory(dummyNews)},
+            content = { NewsCategory(dummyNews, navigateToDetail)},
             modifier = modifier
                 .padding(top = 10.dp)
         )
@@ -118,7 +150,7 @@ fun HomeScreenContent(
 @Composable
 fun HomeScreenPreview() {
     TrashureTheme {
-        HomeScreenContent({}, {})
+        HomeScreenContent({}, {}, {})
     }
 }
 
@@ -172,7 +204,9 @@ fun TextPreview() {
 @Composable
 fun NewsCategory(
     listNews: List<News>,
-    modifier: Modifier = Modifier
+    navigateToDetail: (Long) -> Unit,
+    modifier: Modifier = Modifier,
+
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -183,7 +217,11 @@ fun NewsCategory(
         items(listNews) { news ->
             CardNewsViews(
                 image = news.image,
-                description = news.description
+                title = news.title,
+                modifier = Modifier
+                    .clickable {
+                        navigateToDetail(news.id)
+                    }
             )
         }
     }

@@ -16,4 +16,7 @@ sealed class Screen(val route: String) {
     object UMKMMarket : Screen("umkm_market")
     object TrashureMarket : Screen("trashure_market")
     object SellPage : Screen("sell_page")
+    object DetailNews : Screen("home/{id}") {
+        fun createRoute(id: Long) = "home/$id"
+    }
 }
