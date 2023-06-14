@@ -2,15 +2,12 @@ package com.example.trashure.ui.screen.marketplace
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -31,21 +28,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trashure.R
-import com.example.trashure.model.MarketCategory
-import com.example.trashure.model.dummyMarketCategory
 import com.example.trashure.ui.components.marketplace.CardMenuMarketPlace
 import com.example.trashure.ui.theme.TrashureTheme
 
 
 @Composable
 fun MarketPlaceScreen(
+    navigateBack: () -> Unit,
     navigateToUserMarket: () -> Unit,
     navigateToUMKMMarket: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Scaffold(
         topBar = {
-            TopBarMarketChoose("Toko Sampah")
+            TopBarMarketChoose(
+                navigateBack= navigateBack,
+                title = "Toko Sampah"
+            )
         }
     ) {innerPadding ->
         Column(
@@ -66,7 +65,7 @@ fun MarketPlaceScreen(
                     .padding(top = 120.dp)
             )
             Spacer(modifier = Modifier.height(26.dp))
-            showMarketMenu(
+            ShowMarketMenu(
                 modifier = modifier.fillMaxWidth(),
                 navigateToUMKMMarket = navigateToUMKMMarket,
                 navigateToUserMarket = navigateToUserMarket
@@ -81,7 +80,7 @@ fun MarketPlaceScreen(
 fun MarketPlaceScreenPreview(){
     TrashureTheme {
         MarketPlaceScreen(
-            {},{}
+            {},{},{}
         )
     }
 }
@@ -89,12 +88,15 @@ fun MarketPlaceScreenPreview(){
 
 @Composable
 fun TopBarMarketChoose(
+    navigateBack: () -> Unit,
     title : String,
     modifier : Modifier = Modifier,
 ) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navigateBack()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Menu",
@@ -120,13 +122,14 @@ fun TopBarMarketChoose(
 fun TopBarMarketPreview(){
     TrashureTheme {
         TopBarMarketChoose(
+            {},
             "Toko Sampah"
         )
     }
 }
 
 @Composable
-fun showMarketMenu(
+fun ShowMarketMenu(
     navigateToUserMarket: () -> Unit,
     navigateToUMKMMarket: () -> Unit,
     modifier: Modifier = Modifier

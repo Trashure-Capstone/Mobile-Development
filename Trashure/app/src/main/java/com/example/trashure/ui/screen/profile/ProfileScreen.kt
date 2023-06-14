@@ -17,23 +17,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trashure.R
+import com.example.trashure.di.Injection
 import com.example.trashure.ui.components.profilepage.CardMenuProfileViews
 import com.example.trashure.ui.components.profilepage.CardProfileViews
+import com.example.trashure.ui.screen.login.LoginViewModel
 import com.example.trashure.ui.theme.PrimaryBackgroundColor
 import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.ui.theme.TrashureTheme
+import com.example.trashure.utils.ViewModelFactory
 
 @Composable
 fun ProfileScreen(
+    navigateLogin: () -> Unit,
     navigateToEditProfile: () -> Unit,
     navigateToChangePassword : () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel(
+        factory = ViewModelFactory(
+            Injection.provideRepository(context = LocalContext.current)
+        )
+    )
 ) {
     Box(
         modifier = modifier
@@ -76,7 +87,10 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(26.dp))
         CardMenuProfileViews(navigateToEditProfile, navigateToChangePassword)
         Spacer(modifier = Modifier.height(26.dp))
-        ButtonLogout()
+        ButtonLogout(
+            logout = {viewModel.logout()},
+            navigateLogin = navigateLogin
+        )
     }
 }
 
@@ -84,16 +98,21 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenPreview(){
     TrashureTheme {
-        ProfileScreen(navigateToEditProfile = {}, navigateToChangePassword = {})
+        ProfileScreen(navigateLogin = {}, navigateToEditProfile = {}, navigateToChangePassword = {})
     }
 }
 
 @Composable
 fun ButtonLogout(
+    logout: () -> Unit,
+    navigateLogin: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Button(
-        onClick = {},
+        onClick = {
+            logout()
+            navigateLogin()
+        },
         shape = Shapes_Larger.small,
         colors = ButtonDefaults.buttonColors(Color(0xFFE53E3E)),
         modifier = modifier

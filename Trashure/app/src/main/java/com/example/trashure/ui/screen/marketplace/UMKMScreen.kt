@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UMKMScreen(
+    navigateBack:()->Unit,
     menuSections: List<MenuSections>,
     modifier: Modifier = Modifier,
 ) {
@@ -51,7 +52,10 @@ fun UMKMScreen(
 
     Scaffold(
         topBar = {
-            TopBarUMKM(title = stringResource(R.string.umkm_market))
+            TopBarUMKM(
+                navigateBack = navigateBack,
+                title = stringResource(R.string.umkm_market)
+            )
         },
         modifier = modifier
     ) { innerPadding ->
@@ -99,19 +103,25 @@ fun UMKMScreen(
 @Preview(showBackground = true)
 fun UMKMScreenPreview(){
     TrashureTheme {
-        UMKMScreen(menuSections)
+        UMKMScreen(
+            {},
+            menuSections
+        )
     }
 }
 
 
 @Composable
 fun TopBarUMKM(
+    navigateBack: () -> Unit,
     title : String,
     modifier : Modifier = Modifier,
 ) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navigateBack()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Menu",
@@ -166,7 +176,7 @@ fun ItemsMarketRow(
 fun TopBarUMKMPreview(){
     TrashureTheme {
         TopBarUMKM(
-            "Toko Sampah"
+            {},"Toko Sampah"
         )
     }
 }

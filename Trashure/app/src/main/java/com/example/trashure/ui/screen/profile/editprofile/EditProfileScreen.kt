@@ -50,14 +50,15 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun EditProfileScreen(
-    navController: NavHostController = rememberNavController(),
+    navigateBack:()->Unit,
     modifier: Modifier = Modifier
 ){
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
     Scaffold (
         topBar = {
-            MyTopBar(title = stringResource(R.string.edit_profile))
+            MyTopBar(
+                navigateBack = navigateBack,
+                title = stringResource(R.string.edit_profile)
+            )
         },
         modifier = modifier
     ){innerPadding ->
@@ -130,7 +131,7 @@ fun EditProfileScreen(
 @Composable
 fun EditProfileScreenPreview(){
     TrashureTheme {
-        EditProfileScreen()
+        EditProfileScreen({})
     }
 }
 

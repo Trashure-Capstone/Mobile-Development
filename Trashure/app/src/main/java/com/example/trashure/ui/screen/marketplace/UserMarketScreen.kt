@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UserMarketScreen(
+    navigateBack:()->Unit,
     menuSections: List<MenuSections>,
     modifier: Modifier = Modifier,
 ) {
@@ -50,7 +51,10 @@ fun UserMarketScreen(
 
     Scaffold(
         topBar = {
-            TopBarUMKM(title = stringResource(R.string.umkm_market))
+            TopBarUMKM(
+                navigateBack = navigateBack,
+                title = stringResource(R.string.umkm_market)
+            )
         },
         modifier = modifier
     ) { innerPadding ->
@@ -96,12 +100,15 @@ fun UserMarketScreen(
 
 @Composable
 fun TopBarUserMarket(
+    navigateBack:()->Unit,
     title : String,
     modifier : Modifier = Modifier,
 ) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navigateBack()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Menu",
@@ -157,7 +164,7 @@ fun ItemsUserMarketRow(
 fun TopBarUserMarketPreview(){
     TrashureTheme {
         TopBarUserMarket(
-            "Toko Sampah"
+            {},"Toko Sampah"
         )
     }
 }

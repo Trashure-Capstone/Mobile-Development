@@ -1,6 +1,5 @@
 package com.example.trashure
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trashure.ui.navigation.NavigationItem
 import com.example.trashure.ui.navigation.Screen
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -119,7 +116,6 @@ fun TrashureApp(
                 )
             }
             composable(Screen.Login.route){
-                val context = LocalContext.current
                 LoginScreen(
                     navigateToRegister = {
                         navController.navigate(Screen.Register.route)
@@ -161,14 +157,26 @@ fun TrashureApp(
                     },
                     navigateToChangePassword = {
                         navController.navigate(Screen.ChangePassword.route)
+                    },
+                    navigateLogin = {
+                        navController.popBackStack()
+                        navController.navigate(Screen.Login.route)
                     }
                 )
             }
             composable(Screen.EditProfile.route){
-                EditProfileScreen()
+                EditProfileScreen(
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
             }
             composable(Screen.ChangePassword.route){
-                ChangePasswordScreen()
+                ChangePasswordScreen(
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
             }
             composable(Screen.MarketPage.route){
                 MarketPlaceScreen(
@@ -177,25 +185,41 @@ fun TrashureApp(
                     },
                     navigateToUserMarket = {
                         navController.navigate(Screen.TrashureMarket.route)
+                    },
+                    navigateBack = {
+                        navController.navigateUp()
                     }
                 )
             }
             composable(Screen.UMKMMarket.route){
-                UMKMScreen(menuSections)
+                UMKMScreen(
+                    menuSections = menuSections,
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
             }
             composable(Screen.TrashureMarket.route){
-                UserMarketScreen(menuSections)
+                UserMarketScreen(
+                    menuSections = menuSections,
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
             }
             composable(Screen.ScanPage.route){
                 ScanScreen(
                     navigateBack = {
-                        Log.d("navigateBack","")
                         navController.navigateUp()
                     }
                 )
             }
             composable(Screen.SellPage.route){
-                SellTrashScreen()
+                SellTrashScreen(
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
             }
         }
     }
