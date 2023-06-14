@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.trashure.ui.screen.login.LoginViewModel
 import com.example.trashure.data.repository.TrashureRepository
+import com.example.trashure.ui.screen.home.HomeViewModel
+import com.example.trashure.ui.screen.news.DetailNewsViewModel
 import com.example.trashure.ui.screen.register.RegisterViewModel
 import com.example.trashure.ui.screen.scan.ScanViewModel
 import com.example.trashure.ui.screen.sell.SellTrashViewModel
@@ -21,6 +23,10 @@ class ViewModelFactory(private val repository: TrashureRepository) :
             return ScanViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(SellTrashViewModel::class.java)){
             return SellTrashViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            return HomeViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(DetailNewsViewModel::class.java)) {
+            return DetailNewsViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

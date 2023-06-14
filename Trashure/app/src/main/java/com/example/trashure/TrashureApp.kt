@@ -29,10 +29,12 @@ import com.example.trashure.ui.navigation.NavigationItem
 import com.example.trashure.ui.navigation.Screen
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.trashure.model.menuSections
 import com.example.trashure.ui.screen.home.HomeScreen
 import com.example.trashure.ui.screen.inbox.InboxScreenContent
@@ -40,6 +42,8 @@ import com.example.trashure.ui.screen.login.LoginScreen
 import com.example.trashure.ui.screen.marketplace.MarketPlaceScreen
 import com.example.trashure.ui.screen.marketplace.UMKMScreen
 import com.example.trashure.ui.screen.marketplace.UserMarketScreen
+import com.example.trashure.ui.screen.news.DetailNewsContent
+import com.example.trashure.ui.screen.news.DetailNewsScreen
 import com.example.trashure.ui.screen.order.OrderScreen
 import com.example.trashure.ui.screen.profile.changepassword.ChangePasswordScreen
 import com.example.trashure.ui.screen.profile.editprofile.EditProfileScreen
@@ -70,7 +74,8 @@ fun TrashureApp(
             Screen.TrashureMarket.route,
             Screen.MarketPage.route,
             Screen.UMKMMarket.route,
-            Screen.SellPage.route
+            Screen.SellPage.route,
+            Screen.DetailNews.route
         )
     Scaffold(
         bottomBar = {
@@ -141,6 +146,9 @@ fun TrashureApp(
                     },
                     navigateToSellPage = {
                         navController.navigate(Screen.SellPage.route)
+                    },
+                    navigateToDetail = { id ->
+                        navController.navigate(Screen.DetailNews.createRoute(id))
                     }
                 )
             }
@@ -216,6 +224,18 @@ fun TrashureApp(
             }
             composable(Screen.SellPage.route){
                 SellTrashScreen(
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
+            }
+            composable(
+                route = Screen.DetailNews.route,
+                arguments = listOf(navArgument("id") { type = NavType.LongType }),
+            ) {
+                val id = it.arguments?.getLong("id") ?: -1L
+                DetailNewsScreen(
+                    id = id,
                     navigateBack = {
                         navController.navigateUp()
                     }
