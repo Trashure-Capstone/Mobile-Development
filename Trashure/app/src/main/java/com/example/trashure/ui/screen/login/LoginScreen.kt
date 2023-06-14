@@ -53,7 +53,7 @@ fun LoginScreen(
     var isLoading by remember{ mutableStateOf(false)}
     LoginScreenContent(
         navigateToRegister = navigateToRegister,
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         viewModel = viewModel,
         isLoading = isLoading
     )

@@ -47,64 +47,53 @@ class RegisterViewModel(
         when (event) {
             is RegisterUIEvent.NameChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    name = event.name
+                    name = event.name,
+                    nameError = !Validator.validateName(event.name).status
                 )
             }
             
             is RegisterUIEvent.EmailChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    email = event.email
+                    email = event.email,
+                    emailError = !Validator.validateEmail(event.email).status
                 )
             }
             
             is RegisterUIEvent.PasswordChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    password = event.password
+                    password = event.password,
+                    passwordError = !Validator.validatePassword(event.password).status
                 )
             }
     
             is RegisterUIEvent.ConfirmPasswordChanged -> {
                 registerUIState.value = registerUIState.value.copy(
-                    confirmPassword = event.confirmPassword
+                    confirmPassword = event.confirmPassword,
+                    confirmPasswordError = !Validator.validateConfirmPassword(registerUIState.value.password,event.confirmPassword).status
                 )
             }
             
             is RegisterUIEvent.RegisterButtonClicked -> {
                 register()
+                validateRegisterUIDataWithRules()
             }
         }
-        validateRegisterUIDataWithRules()
     }
     
     private fun validateRegisterUIDataWithRules() {
-        val nameResult = Validator.validateName(
-            name = registerUIState.value.name
-        )
-        
-        val emailResult = Validator.validateEmail(
-            email = registerUIState.value.email
-        )
-        
-        val passwordResult = Validator.validatePassword(
-            password = registerUIState.value.password
-        )
-    
-        val confirmPasswordResult = Validator.validateConfirmPassword(
-            password = registerUIState.value.password,
-            confirmPassword = registerUIState.value.confirmPassword
-        )
+        val nameError = registerUIState.value.nameError && registerUIState.value.name.isEmpty()
+        val emailError = registerUIState.value.emailError && registerUIState.value.email.isEmpty()
+        val passwordError = registerUIState.value.passwordError && registerUIState.value.password.isEmpty()
+        val confirmPasswordError = registerUIState.value.confirmPasswordError && registerUIState.value.confirmPassword.isEmpty()
         
         registerUIState.value = registerUIState.value.copy(
-            nameError = nameResult.status,
-            emailError = emailResult.status,
-            passwordError = passwordResult.status,
-            confirmPasswordError =  confirmPasswordResult.status
+            nameError = nameError,
+            emailError = emailError,
+            passwordError = passwordError,
+            confirmPasswordError =  confirmPasswordError
         )
         
-        isAllValidationsPassed.value =
-            nameResult.status && emailResult.status
-                    && passwordResult.status && confirmPasswordResult.status
-        
+        isAllValidationsPassed.value = !nameError && !emailError && !passwordError && !confirmPasswordError
     }
     
 }

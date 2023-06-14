@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
 import com.example.trashure.data.repository.TrashureRepository
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.ui.common.UiState
@@ -15,7 +14,6 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val repository: TrashureRepository
     ) : ViewModel() {
-    
     
     //handling state for login response
     private val _loginState: MutableStateFlow<UiState<LoginResult>> =
@@ -73,13 +71,15 @@ class LoginViewModel(
         when (event) {
             is LoginUIEvent.EmailChanged -> {
                 loginUIState.value = loginUIState.value.copy(
-                    email = event.email
+                    email = event.email,
+                    emailError = !Validator.validateEmail(event.email).status
                 )
             }
             
             is LoginUIEvent.PasswordChanged -> {
                 loginUIState.value = loginUIState.value.copy(
-                    password = event.password
+                    password = event.password,
+                    passwordError = !Validator.validatePassword(event.password).status
                 )
             }
             
@@ -91,20 +91,16 @@ class LoginViewModel(
     }
     
     private fun validateLoginUIDataWithRules() {
-        val emailResult = Validator.validateEmail(
-            email = loginUIState.value.email
-        )
-        
-        val passwordResult = Validator.validatePassword(
-            password = loginUIState.value.password
-        )
+    
+        val emailError = loginUIState.value.emailError && loginUIState.value.email.isEmpty()
+        val passwordError = loginUIState.value.passwordError && loginUIState.value.password.isEmpty()
         
         loginUIState.value = loginUIState.value.copy(
-            emailError = emailResult.status,
-            passwordError = passwordResult.status
+            emailError = emailError,
+            passwordError = passwordError
         )
         
-        isAllValidationsPassed.value = emailResult.status && passwordResult.status
+        isAllValidationsPassed.value = !emailError && !passwordError
         
     }
     
