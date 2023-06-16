@@ -29,7 +29,6 @@ import com.example.trashure.di.Injection
 import com.example.trashure.model.*
 import com.example.trashure.ui.common.UiState
 import com.example.trashure.ui.components.homepage.*
-import com.example.trashure.ui.screen.news.DetailNewsContent
 import com.example.trashure.ui.theme.Blue_1
 import com.example.trashure.ui.theme.Green_1
 import com.example.trashure.ui.theme.PrimaryBackgroundColor

@@ -30,7 +30,7 @@ fun CardNewsViews(
 ) {
     Card (
         modifier = modifier
-            .width(118.dp)
+            .width(130.dp)
             .shadow(elevation = 8.dp, ambientColor = Color.Gray, spotColor = Color.Gray),
         shape = RoundedCornerShape(8.dp),
     ){

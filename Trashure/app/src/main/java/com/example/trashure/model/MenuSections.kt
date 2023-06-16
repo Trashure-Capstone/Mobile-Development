@@ -21,64 +21,56 @@ val menuSections = listOf(
     MenuSections(
     "Best Seller",
         listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
+            MenuItems("Lampu Ajaib", "30.000", R.drawable.lampu),
+            MenuItems("Pot Bunga", "18.000", R.drawable.pot_bunga),
+            MenuItems("Tas Kuning", "25.000", R.drawable.tas_kuning),
+            MenuItems("Sandal Mewah", "24.000", R.drawable.sandal_merah)
         )
     ),
     MenuSections(
         "Tas",
         listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
-        )
-    ),
-    MenuSections(
-        "Sepatu",
-        listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
-        )
-    ),
-    MenuSections(
-        "Topi",
-        listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
-        )
-    ),
-    MenuSections(
-        "Sandal",
-        listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
-        )
-    ),
-    MenuSections(
-        "Mainan",
-        listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
+            MenuItems("Tas Merah", "30.000", R.drawable.tas_merah),
+            MenuItems("Tas Minuman", "20.000", R.drawable.tas_minuman),
+            MenuItems("Tas Ungu", "22.000", R.drawable.tas_ungu)
         )
     ),
     MenuSections(
         "Kerajinan",
         listOf(
-            MenuItems("Cappuccino", "20.000", R.drawable.bottle),
-            MenuItems("Espresso", "18.000", R.drawable.bottle),
-            MenuItems("Latte", "22.000", R.drawable.bottle),
-            MenuItems("Mocha", "24.000", R.drawable.bottle)
+            MenuItems("Bottle Flower", "20.000", R.drawable.kerajinan_bunga),
+            MenuItems("Wadah Plastik", "18.000", R.drawable.kerajinan_wadah)
+        )
+    ),
+    MenuSections(
+        "Keranjang",
+        listOf(
+            MenuItems("Keranjang Botol", "20.000", R.drawable.keranjang_botol),
+            MenuItems("Kerajnjang Minuman", "18.000", R.drawable.keranjang_minuman),
+            MenuItems("Keranjang Hijau", "22.000", R.drawable.keranjang),
+        )
+    ),
+    MenuSections(
+        "Sandal",
+        listOf(
+            MenuItems("Sandal ABC", "20.000", R.drawable.sandal_abc),
+            MenuItems("Sandal Bangau", "18.000", R.drawable.sandal_bangau),
+            MenuItems("Sandal Indomie", "22.000", R.drawable.sandal_indomie)
+        )
+    ),
+    MenuSections(
+        "Topi",
+        listOf(
+            MenuItems("Topi Daia", "20.000", R.drawable.topi_daia),
+            MenuItems("Topi Kemasan", "18.000", R.drawable.topi_kemasan),
+            MenuItems("Topi Sunlight", "22.000", R.drawable.topi_sunlight)
+        )
+    ),
+    MenuSections(
+        "Tikar",
+        listOf(
+            MenuItems("Tikar Merah", "20.000", R.drawable.tikar_merah),
+            MenuItems("Tikar Kuning", "18.000", R.drawable.tikar)
         )
     ),
 )
