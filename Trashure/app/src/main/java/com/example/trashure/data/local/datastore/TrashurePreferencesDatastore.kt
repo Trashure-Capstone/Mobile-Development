@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.trashure.model.Auth
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private val Context.dataStore : DataStore<Preferences> by preferencesDataStore("trashure_datastore")
@@ -24,13 +24,13 @@ class TrashurePreferencesDatastore(context: Context) {
         }
     }
     
-    fun getAuth(): Flow<Auth> {
+    suspend fun getAuth(): Auth {
         return pref.data.map{
             Auth(
                 isLogin = it[isLogin]?:false,
                 token   = it[token]?:""
             )
-        }
+        }.first()
     }
     
     companion object{

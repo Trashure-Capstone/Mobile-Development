@@ -1,7 +1,6 @@
 package com.example.trashure.ui.screen.profile
 
 import android.util.Log
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -55,12 +54,13 @@ fun ProfileScreen(
         )
     )
 ) {
-    var profileData: User? by rememberSaveable{
+    var profileData: User? by remember{
         mutableStateOf(null)
     }
     var isLoading by remember{
         mutableStateOf(false)
     }
+    
     viewModel.state.collectAsState(initial = UiState.Empty).value.let { uiState ->
         when(uiState){
             is UiState.Loading -> {
@@ -84,64 +84,56 @@ fun ProfileScreen(
         
         }
     }
-    
-    if(isLoading){
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
-            CircularProgressIndicator(
-                color = PrimaryColor
-            )
-        }
-    } else{
-        Box(
-            modifier = modifier
-                .height(160.dp)
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            PrimaryBackgroundColor, Color(0xFFCCEFD9)
-                        )
-                    ),
-                    shape = RoundedCornerShape(
-                        bottomEnd = 20.dp,
-                        bottomStart = 20.dp
+    Box(
+        modifier = modifier
+            .height(160.dp)
+            .fillMaxWidth()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        PrimaryBackgroundColor, Color(0xFFCCEFD9)
                     )
+                ),
+                shape = RoundedCornerShape(
+                    bottomEnd = 20.dp,
+                    bottomStart = 20.dp
                 )
-        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            )
+    )
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Spacer(modifier = Modifier.height(60.dp))
+        Text(
+            text = "Profile",
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.height(60.dp))
-            Text(
-                text = "Profile",
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(26.dp))
-        
-            CardProfileViews(
-                isLoading = isLoading,
-                image = R.drawable.avatarss,
-                username = profileData?.name ?: "Username",
-                email = profileData?.email ?: "Email",
-                role = profileData?.role ?: "Role"
-            )
-            Spacer(modifier = Modifier.height(26.dp))
-            CardMenuProfileViews(navigateToEditProfile, navigateToChangePassword)
-            Spacer(modifier = Modifier.height(26.dp))
-            ButtonLogout(
-                logout = {viewModel.logout()},
-                navigateLogin = navigateLogin
-            )
-        }
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(26.dp))
+    
+        CardProfileViews(
+            isLoading = isLoading,
+            image = R.drawable.avatarss,
+            username = profileData?.name ?: "Username",
+            email = profileData?.email ?: "Email",
+            role = profileData?.role ?: "Role"
+        )
+        Spacer(modifier = Modifier.height(26.dp))
+        CardMenuProfileViews(navigateToEditProfile, navigateToChangePassword)
+        Spacer(modifier = Modifier.height(26.dp))
+        ButtonLogout(
+            logout = {
+                isLoading = true
+                viewModel.logout()
+                     },
+            navigateLogin = navigateLogin
+        )
     }
-    
-    
 }
 
 @Preview(showBackground = true)

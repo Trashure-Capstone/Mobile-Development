@@ -1,6 +1,7 @@
 package com.example.trashure.data.remote.service
 
 import android.content.Context
+import android.util.Log
 import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore
 import com.example.trashure.model.Auth
 import kotlinx.coroutines.flow.first
@@ -15,15 +16,17 @@ class ApiConfig {
     companion object{
 
         private fun getToken(context: Context):String{
-            val auth : Auth
+            var auth : Auth
             runBlocking {
-                auth = TrashurePreferencesDatastore(context).getAuth().first()
+                auth = TrashurePreferencesDatastore(context).getAuth()
             }
             return auth.token
         }
 
         fun getApiService(context: Context): ApiService {
-            val token = getToken(context)
+            val token = runBlocking {
+                TrashurePreferencesDatastore(context).getAuth().token
+            }
             val tokenInterceptor = Interceptor{chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")
@@ -45,7 +48,9 @@ class ApiConfig {
             return retrofit.create(ApiService::class.java)
         }
         fun getApiServiceML(context: Context): ApiService {
-            val token = getToken(context)
+            val token = runBlocking {
+                TrashurePreferencesDatastore(context).getAuth().token
+            }
             val tokenInterceptor = Interceptor{chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")

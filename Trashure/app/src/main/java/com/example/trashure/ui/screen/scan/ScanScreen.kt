@@ -194,7 +194,6 @@ fun ScanScreen(
                 is UiState.Error -> {
                     Log.d("ScanScreen", "UiState.Error")
                     isLoading = false
-                    navigateBack()
                     Log.d("collectStateTestError", uiState.toString())
                 }
                 else -> {

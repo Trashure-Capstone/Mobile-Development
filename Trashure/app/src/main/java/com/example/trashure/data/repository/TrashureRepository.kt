@@ -61,8 +61,8 @@ class TrashureRepository(context: Context, private val apiService: ApiService) {
                 if (response.error){
                     emit(UiState.Error(response.message))
                 }else{
-                    emit(UiState.Success(response.loginResult))
                     setAuth(Auth(true,response.loginResult.token))
+                    emit(UiState.Success(response.loginResult))
                 }
             }
             catch (e:Exception){
@@ -144,7 +144,7 @@ class TrashureRepository(context: Context, private val apiService: ApiService) {
         }
     }
     
-    suspend fun isLogin() = preferencesDatastore.getAuth().first().isLogin
+    suspend fun isLogin() = preferencesDatastore.getAuth().isLogin
     
     companion object {
         @SuppressLint("StaticFieldLeak")

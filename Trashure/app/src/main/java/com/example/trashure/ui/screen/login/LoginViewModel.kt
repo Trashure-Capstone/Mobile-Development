@@ -44,7 +44,6 @@ class LoginViewModel(
     }
     
     private fun login(){
-        Log.d("yyy","login")
         
         val email = loginUIState.value.email
         val password = loginUIState.value.password
