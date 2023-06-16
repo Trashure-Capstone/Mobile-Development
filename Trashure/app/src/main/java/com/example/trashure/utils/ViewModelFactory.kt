@@ -6,6 +6,7 @@ import com.example.trashure.ui.screen.login.LoginViewModel
 import com.example.trashure.data.repository.TrashureRepository
 import com.example.trashure.ui.screen.home.HomeViewModel
 import com.example.trashure.ui.screen.news.DetailNewsViewModel
+import com.example.trashure.ui.screen.profile.ProfileViewModel
 import com.example.trashure.ui.screen.register.RegisterViewModel
 import com.example.trashure.ui.screen.scan.ScanViewModel
 import com.example.trashure.ui.screen.sell.SellTrashViewModel
@@ -27,6 +28,8 @@ class ViewModelFactory(private val repository: TrashureRepository) :
             return HomeViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(DetailNewsViewModel::class.java)) {
             return DetailNewsViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(ProfileViewModel::class.java)){
+            return ProfileViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

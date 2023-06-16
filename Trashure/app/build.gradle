@@ -7,6 +7,13 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+def googleMapsApiKey = localProperties.getProperty('googleMapsApiKey')
+if (googleMapsApiKey == null) {
+    googleMapsApiKey = System.getenv("GOOGLE_MAPS_API_KEY_ENVIRONMENT_VARIABLE")
+}
+
 android {
     namespace 'com.example.trashure'
     compileSdk 33
@@ -22,6 +29,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        manifestPlaceholders = [
+                googleMapsApiKey       : googleMapsApiKey
+        ]
     }
 
     buildTypes {
@@ -72,6 +83,14 @@ dependencies {
     //datetime
     implementation "io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc"
 
+    //coil
+    implementation "io.coil-kt:coil-compose:2.4.0"
+
+    //maps
+    implementation 'com.google.maps.android:maps-compose:2.11.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     //navigation
     implementation "androidx.navigation:navigation-compose:2.6.0"
 
@@ -90,7 +109,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     //okhttp
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.squareup.okhttp3:okhttp:4.11.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 
     //testing

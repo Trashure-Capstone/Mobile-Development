@@ -1,6 +1,7 @@
 package com.example.trashure.ui.components.sellpage
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -8,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,12 +20,16 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CategoryPhoto(
+    onClick:()->Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .width(310.dp)
-            .height(40.dp),
+            .height(40.dp)
+            .clickable {
+                onClick()
+            },
         shape = RoundedCornerShape(10.dp),
     ) {
         Row(
@@ -63,6 +69,6 @@ fun CategoryPhoto(
 @Preview(showBackground = true)
 fun CategoryPhotoPreview() {
     TrashureTheme {
-        CategoryPhoto()
+        CategoryPhoto({})
     }
 }

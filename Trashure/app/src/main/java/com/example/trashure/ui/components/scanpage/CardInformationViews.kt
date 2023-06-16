@@ -31,7 +31,6 @@ import com.example.trashure.ui.theme.TrashureTheme
 
 @Composable
 fun CardInformationViews(
-//    icon: Int,
     title: String,
     description: String,
     modifier: Modifier = Modifier,

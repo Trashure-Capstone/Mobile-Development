@@ -43,10 +43,6 @@ class LoginViewModel(
         }
     }
     
-    fun logout(){
-        repository.logout()
-    }
-    
     private fun login(){
         Log.d("yyy","login")
         
