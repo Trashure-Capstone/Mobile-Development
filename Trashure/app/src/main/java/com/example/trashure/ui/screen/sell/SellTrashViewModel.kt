@@ -1,13 +1,22 @@
 package com.example.trashure.ui.screen.sell
 
+import android.location.Location
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.trashure.data.remote.response.SellTrashResponse
-
 import com.example.trashure.data.repository.TrashureRepository
 import com.example.trashure.ui.common.UiState
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.sql.Date
 import java.sql.Time
 import java.time.LocalDate
@@ -58,10 +67,31 @@ class SellTrashViewModel(
         sellTrashUIState.value = sellTrashUIState.value.copy(
             time = Time.valueOf(
                 DateTimeFormatter
-                    .ofPattern("hh:mm:ss")
+                    .ofPattern("HH:mm:ss")
                     .format(time)
             )
         )
+    }
+    
+    fun sellTrash(
+        latitude: RequestBody,
+        longitude: RequestBody,
+        date: RequestBody,
+        time: RequestBody,
+        weight: RequestBody,
+        trashType: RequestBody,
+        image: MultipartBody.Part
+    ){
+        _state.value = UiState.Loading
+        viewModelScope.launch {
+            repository.sellTrash(latitude,longitude,date,time,weight,trashType,image)
+                .catch {
+                    _state.value = UiState.Error(it.message.toString())
+                }
+                .collect{ response ->
+                    _state.value = response
+                }
+        }
     }
     
 }

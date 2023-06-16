@@ -75,7 +75,8 @@ fun TrashureApp(
             Screen.MarketPage.route,
             Screen.UMKMMarket.route,
             Screen.SellPage.route,
-            Screen.DetailNews.route
+            Screen.DetailNews.route,
+            Screen.ScanPage.route
         )
     Scaffold(
         bottomBar = {
@@ -229,6 +230,9 @@ fun TrashureApp(
                 SellTrashScreen(
                     navigateBack = {
                         navController.navigateUp()
+                    },
+                    navigateToOrder = {
+                        navController.navigate(Screen.Order.route)
                     }
                 )
             }

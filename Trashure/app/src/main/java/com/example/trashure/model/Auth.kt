@@ -7,9 +7,6 @@ data class Auth (
     val isLogin: Boolean,
     
     @field:SerializedName("token")
-    val token:String,
-    
-    @field:SerializedName("name")
-    val name:String
+    val token:String
     )
     

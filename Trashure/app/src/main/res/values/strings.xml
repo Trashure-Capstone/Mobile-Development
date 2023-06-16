@@ -46,4 +46,21 @@
     <string name="pick_date">Pilih tanggal penjemputan</string>
     <string name="pick_time">Pilih jam penjemputan</string>
     <string name="no_camera_permission">Tidak ada izin kamera</string>
+    <string name="no_permission">Tidak ada izin, berikan izin aplikasi untuk mengakses fitur ini melalui pengaturan aplikasi</string>
+    <string name="pick_location">Pilih lokasi ini</string>
+    <string name="estimated_earning">Estimasi Total Pendapatan</string>
+    <string name="total_price">Total Harga</string>
+    <string name="bonus_coin">Bonus Coin</string>
+    <string name="order_detail">Detail Penjualan</string>
+    <string name="admin_fee">Biaya Admin (20%)</string>
+    <string name="confirm_sell_trash">Konfirmasi Jual Sampah</string>
+    <string name="trash_type_logo">Logo tipe sampah</string>
+    <string name="invalid_weight">Berat sampah harus lebih dari 0 kg</string>
+    <string name="choose_trashType">Pilih Tipe Sampah terlebih dahulu</string>
+    <string name="invalid_date">Tanggal harus diisi</string>
+    <string name="invalid_time">Waktu harus diisi</string>
+    <string name="invalid_location">Pilih lokasi penjemputan!</string>
+    <string name="invalid_image">Ambil gambar sampah terlebih dahulu</string>
+    <string name="pick_trashType">Pilih jenis sampah</string>
+    <string name="sell_trash_success">Pesanan Jual Sampah berhasil dibuat</string>
 </resources>

@@ -20,7 +20,6 @@ class TrashurePreferencesDatastore(context: Context) {
     suspend fun setAuth(auth : Auth){
         pref.edit {
             it[isLogin] = auth.isLogin
-            it[name]    = auth.name
             it[token]   = auth.token
         }
     }
@@ -29,7 +28,6 @@ class TrashurePreferencesDatastore(context: Context) {
         return pref.data.map{
             Auth(
                 isLogin = it[isLogin]?:false,
-                name    = it[name]?:"",
                 token   = it[token]?:""
             )
         }

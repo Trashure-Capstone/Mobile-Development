@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.trashure.R
 import com.example.trashure.model.TrashTypeList
 import com.example.trashure.ui.theme.TrashureTheme
@@ -89,8 +89,8 @@ fun ModalBottomSheet(
                     shape = RoundedCornerShape(100.dp),
                     backgroundColor = Color(0xFFF47078)
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.bottle),
+                    AsyncImage(
+                        model = item.logo,
                         contentDescription = null,
                         modifier = Modifier
                             .padding(top = 2.dp)

@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +30,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trashure.R
+import com.example.trashure.data.remote.response.ScanResult
 import com.example.trashure.di.Injection
 import com.example.trashure.ui.common.UiState
 import com.example.trashure.ui.components.MyTopBar
@@ -37,6 +39,7 @@ import com.example.trashure.ui.components.scanpage.CardInformationViews
 import com.example.trashure.ui.theme.PrimaryColor
 import com.example.trashure.ui.theme.Shapes_Larger
 import com.example.trashure.ui.theme.TrashureTheme
+import com.example.trashure.ui.theme.Typography
 import com.example.trashure.utils.ComposeFileProvider
 import com.example.trashure.utils.ViewModelFactory
 import com.example.trashure.utils.uriToFile
@@ -144,7 +147,7 @@ fun ScanScreen(
             onResult = { uri ->
                 hasImage = uri != null
                 imageUri = uri
-                viewModel.scan(imageUri?.let { uriToFile(selectedImg = it,context = context) })
+                viewModel.scan(imageUri?.let { uriToFile(selectedImg = it,context = context) },context)
             }
         )
     
@@ -152,7 +155,7 @@ fun ScanScreen(
             contract = ActivityResultContracts.TakePicture(),
             onResult = { success ->
                 hasImage = success
-                viewModel.scan(imageUri?.let { uriToFile(selectedImg = it,context = context) })
+                viewModel.scan(imageUri?.let { uriToFile(selectedImg = it,context = context) }, context)
             }
         )
     
@@ -178,6 +181,7 @@ fun ScanScreen(
                     Log.d("ScanScreen", "UiState.Success")
                     isLoading = false
                     ScanScreenContent(
+                        scanState = uiState.data,
                         navigateBack = navigateBack,
                         openDialog = {
                             viewModel.rescan()
@@ -212,7 +216,15 @@ fun ScanScreen(
         }
         
     }else{
-        //Do Nothing
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text =stringResource(id = R.string.no_permission),
+                style = Typography.body1
+            )
+        }
     }
     
     
@@ -221,6 +233,7 @@ fun ScanScreen(
     
 @Composable
 fun ScanScreenContent (
+    scanState: ScanResult,
     navigateBack: () -> Unit,
     openDialog : ()->Unit,
     navigateToSellTrash : ()->Unit,
@@ -245,6 +258,11 @@ fun ScanScreenContent (
                 .fillMaxSize()
         ) {
             Spacer(modifier = Modifier.height(30.dp))
+            Text(
+                scanState.jenis_sampah,
+                textAlign = TextAlign.Center,
+                style = Typography.subtitle1
+            )
             if(imageUri == null){
                 ImageScanViews(R.drawable.baseline_image_24)
             }else{
@@ -261,12 +279,12 @@ fun ScanScreenContent (
                 )
             }
             
-            LogoType(R.drawable.hdpe)
+            LogoType(scanState.logo)
             Spacer(modifier = Modifier.height(4.dp))
-            CardInformationViews(title = "Tipe Plastik", description = "PETE")
-            CardInformationViews(title = "Nama Lain", description = "Polyethylene Terephthalate")
-            CardInformationViews(title = "Manfaat", description = "memiliki kemampuan untuk mencegah oksigen masuk dan merusak produk didalamnya.")
-            CardInformationViews(title = "Kekurangan", description = "Mengandung antimon trioksida (yang dianggap sebagai karsinogen) yang mampu menyebabkan kanker mampu menyebabkan kanke mampu menyebabkan kanker ")
+            CardInformationViews(title = "Tipe Plastik", description = scanState.tipe_sampah)
+            CardInformationViews(title = "Nama Lain", description = scanState.nama_lain)
+            CardInformationViews(title = "Manfaat", description = scanState.manfaat)
+            CardInformationViews(title = "Kekurangan", description = scanState.kekurangan)
             ButtonScanSell(
                 navigateToSellTrash = navigateToSellTrash,
                 openDialog = openDialog,
@@ -283,7 +301,7 @@ fun ScanScreenContent (
 @Composable
 fun ScanScreenPreview(){
     TrashureTheme {
-        ScanScreenContent({},{},{},null)
+        ScanScreenContent(ScanResult("","","","","",""),{},{},{},null)
     }
 }
 
@@ -331,7 +349,7 @@ fun ImageScanPreview(){
 
 @Composable
 fun LogoType(
-    image: Int,
+    image: String,
     modifier: Modifier = Modifier
 ){
     Column (
@@ -343,20 +361,13 @@ fun LogoType(
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
         )
-        Image(
-            painter = painterResource(image) ,
-            contentDescription = null,
+        
+        AsyncImage(
+            model = image ,
+            contentDescription = stringResource(id = R.string.trash_type_logo),
             modifier = modifier
                 .size(50.dp)
         )
-    }
-}
-
-@Preview
-@Composable
-fun LogoTypePreview(){
-    TrashureTheme {
-        LogoType(R.drawable.hdpe)
     }
 }
 

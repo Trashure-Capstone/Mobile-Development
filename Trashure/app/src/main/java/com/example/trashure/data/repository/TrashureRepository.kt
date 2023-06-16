@@ -2,10 +2,11 @@ package com.example.trashure.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Movie
+import android.util.Log
 import com.example.trashure.data.local.datastore.TrashurePreferencesDatastore
 import com.example.trashure.data.remote.response.LoginResult
 import com.example.trashure.data.remote.response.RegisterResponse
+import com.example.trashure.data.remote.service.ApiConfig
 import com.example.trashure.data.remote.service.ApiService
 import com.example.trashure.model.Auth
 import com.example.trashure.model.News
@@ -13,12 +14,12 @@ import com.example.trashure.model.dummyNews
 import com.example.trashure.ui.common.UiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
-class TrashureRepository(private val context: Context, private val apiService: ApiService) {
+class TrashureRepository(context: Context, private val apiService: ApiService) {
     
     private val preferencesDatastore = TrashurePreferencesDatastore(context)
 
@@ -46,8 +47,7 @@ class TrashureRepository(private val context: Context, private val apiService: A
             preferencesDatastore.setAuth(
                 Auth(
                     auth.isLogin,
-                    auth.token,
-                    auth.name
+                    auth.token
                 )
             )
         }
@@ -62,7 +62,7 @@ class TrashureRepository(private val context: Context, private val apiService: A
                     emit(UiState.Error(response.message))
                 }else{
                     emit(UiState.Success(response.loginResult))
-                    setAuth(Auth(true,response.loginResult.token,response.loginResult.name))
+                    setAuth(Auth(true,response.loginResult.token))
                 }
             }
             catch (e:Exception){
@@ -72,7 +72,7 @@ class TrashureRepository(private val context: Context, private val apiService: A
         }
     
     fun logout(){
-        setAuth(Auth(false,"",""))
+        setAuth(Auth(false,""))
     }
     
     fun register(name:String, email:String, password:String): Flow<UiState<RegisterResponse>> = flow {
@@ -92,19 +92,54 @@ class TrashureRepository(private val context: Context, private val apiService: A
         
     }
     
-    fun scan(file: MultipartBody.Part) = flow {
+    fun getUserInfo() = flow{
         try {
             emit(UiState.Loading)
-            delay(2000)
-            emit(UiState.Success(true))
-//            val response = apiService.scan(file)
-//            if (response.error){
-//                emit(UiState.Error(response.message))
-//            }else{
-//                emit(UiState.Success(response))
-//            }
+            val response = apiService.getUserInfo()
+            if(response.error){
+                emit(UiState.Error(response.message))
+            } else{
+                emit(UiState.Success(response.data.user))
+            }
+        } catch (e:Exception){
+            emit(UiState.Error(e.message.toString()))
+        }
+    }
+    
+    fun scan(file: MultipartBody.Part, context:Context) = flow {
+        try {
+            emit(UiState.Loading)
+            val response = ApiConfig.getApiServiceML(context).scan(file)
+            Log.d("ScanResponses",response.toString())
+            if (response.error){
+                emit(UiState.Error(response.message))
+            }else{
+                emit(UiState.Success(response.result))
+            }
         }
         catch (e:Exception){
+            emit(UiState.Error(e.message.toString()))
+        }
+    }
+    
+    fun sellTrash(
+        latitude: RequestBody,
+        longitude: RequestBody,
+        date: RequestBody,
+        time: RequestBody,
+        weight: RequestBody,
+        trashType: RequestBody,
+        image: MultipartBody.Part
+    ) = flow {
+        try{
+            emit(UiState.Loading)
+            val response = apiService.sellTrash(latitude,longitude,date,time,weight,trashType,image)
+            if (response.error){
+                emit(UiState.Error(response.message))
+            }else{
+                emit(UiState.Success(response))
+            }
+        }catch (e:Exception){
             emit(UiState.Error(e.message.toString()))
         }
     }
